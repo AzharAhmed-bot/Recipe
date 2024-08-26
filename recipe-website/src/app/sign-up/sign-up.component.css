@@ -34,7 +34,9 @@
     font-weight: 600;
     color: #5F6F65;
 }
-
+.form-control .error{
+  color: red;
+}
 .form-control input {
     padding: 0.75rem;
     border-radius: 8px;
