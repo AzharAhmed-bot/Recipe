@@ -1,0 +1,144 @@
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #FFFFFF; 
+  padding: 10px 20px;
+  color: #333333; 
+  border-bottom: 2px solid #9C9B7B; 
+  position: relative; 
+}
+
+.navbar-brand {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333; 
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand .logo {
+  border-radius: 70%;
+  height: 40px;
+  width: 40px; 
+  margin-right: 10px;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  justify-content: center; 
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+.nav-link {
+  color: #333333; 
+  text-decoration: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.nav-link i {
+  margin-right: 8px;
+  color: #9C9B7B; 
+}
+
+.nav-link:hover {
+  color: #800020; 
+}
+
+.action-button {
+  margin-left: auto;
+}
+
+.btn-primary {
+  background-color: #800020;
+  color: #FFFFFF;
+  padding: 10px 20px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #660016; 
+}
+
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #333333; 
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+  right: 20px; 
+  top: 15px;
+}
+
+.menu-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: #FFFFFF;
+    border-top: 1px solid #9C9B7B; 
+    padding-top: 10px;
+    margin-top: 10px;
+  }
+  
+  .navbar-links.active {
+    display: flex;
+  }
+
+  .nav-item {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .action-button {
+    display: none;
+    margin: 10px 0; 
+  }
+
+  .action-button.active {
+    display: block; 
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-primary {
+    padding: 8px 16px; 
+    font-size: 0.9rem;
+  }
+
+  .nav-link {
+    font-size: 16px; 
+  }
+}

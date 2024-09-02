@@ -1,0 +1,53 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <img src="../../assets/logo.png" alt="Logo" class="logo"> 
+  </div>
+  <ul class="navbar-links" [ngClass]="{'active': isNavbarOpen}">
+    <li class="nav-item">
+      <a routerLink="/home" class="nav-link">
+        <i class="fas fa-home"></i>
+        Home
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/about" class="nav-link">
+        <i class="fas fa-info-circle"></i>
+        About
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/contact" class="nav-link">
+        <i class="fas fa-envelope"></i>
+        Contact
+      </a>
+    </li>
+  </ul>
+  <div class="action-button" [ngClass]="{'active': isNavbarOpen}">
+    <button class="btn-primary">Sign Up</button>
+  </div>
+  <button class="navbar-toggle" (click)="toggleNavbar()">
+    <svg
+      class="menu-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        *ngIf="!isNavbarOpen"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M4 6h16M4 12h16m-7 6h7"
+      />
+      <path
+        *ngIf="isNavbarOpen"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M6 18L18 6M6 6l12 12"
+      />
+    </svg>
+  </button>
+</nav>

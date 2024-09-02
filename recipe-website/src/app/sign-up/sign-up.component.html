@@ -1,31 +1,40 @@
-<div class="sign-up">
-    <form class="form" [formGroup]="form" (ngSubmit)="onSignUp()" action="">
-        <h1 class="form-title">Sign Up</h1>
-        <div class="form-control">
-            <label for="first-name">First Name</label>
-            <input [ngStyle]="{border:firstName.hasError('required') && firstName.touched? '2px solid red' :''}" formControlName="firstName" type="text" id="first-name" placeholder="Enter first name">
-        </div>
-        <div class="form-control">
-            <label for="last-name">Last Name</label>
-            <input [ngStyle]="{border:lastName.hasError('required') && lastName.touched? '2px solid red' :''}" formControlName="lastName" type="text" id="last-name" placeholder="Enter last name">
-        </div>
-        <div class="form-control">
-            <label for="email">Email</label>
-            <input [ngStyle]="{border:email.hasError('required') && email.touched ?'2px solid red':''}" formControlName="email" type="email" id="email" placeholder="Enter email">
-            <div *ngIf="email.hasError('pattern') && email.touched">
-                <p class="error">Invalid email</p>
+<div class="body">
+<div class="container">
+    <div class="welcome-section">
+        <h1>Welcome!</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <button class="learn-more">Learn More</button>
+    </div>
+    <div class="sign-up">
+        <form class="form" [formGroup]="form" (ngSubmit)="onSignUp()" action="">
+            <h1 class="form-title">Sign Up</h1>
+            <div class="form-control">
+                <label for="first-name">First Name</label>
+                <input [ngStyle]="{border:firstName.hasError('required') && firstName.touched? '2px solid red' :''}" formControlName="firstName" type="text" id="first-name" placeholder="Enter first name">
             </div>
-        </div>
-        <div class="form-control">
-            <label for="password">Password</label>
-            <input [ngStyle]="{border:password.hasError('required') && password.touched? '2px solid red' :''}" formControlName="password" type="password" id="password" placeholder="Enter password">
-            <div *ngIf="password.hasError('minLength') && password.touched">
-                <p class="error">Short password</p>
+            <div class="form-control">
+                <label for="last-name">Last Name</label>
+                <input [ngStyle]="{border:lastName.hasError('required') && lastName.touched? '2px solid red' :''}" formControlName="lastName" type="text" id="last-name" placeholder="Enter last name">
             </div>
-        </div>
-        <div class="form-buttons">
-            <button [disabled]="form.invalid" [ngStyle]="{cursor:form.valid ? 'pointer':'not-allowed'}" type="submit" class="btn-primary">Sign up</button>
-            <button type="button" class="btn-secondary">Sign up with Google</button>
-        </div>
-    </form>
+            <div class="form-control">
+                <label for="email">Email</label>
+                <input [ngStyle]="{border:email.hasError('required') && email.touched ?'2px solid red':''}" formControlName="email" type="email" id="email" placeholder="Enter email">
+                <div *ngIf="email.hasError('pattern') && email.touched">
+                    <p class="error">Invalid email</p>
+                </div>
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input [ngStyle]="{border:password.hasError('required') && password.touched? '2px solid red' :''}" formControlName="password" type="password" id="password" placeholder="Enter password">
+                <div *ngIf="password.hasError('minLength') && password.touched">
+                    <p class="error">Short password</p>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button [disabled]="form.invalid" [ngStyle]="{cursor:form.valid ? 'pointer':'not-allowed'}" type="submit" class="btn-primary">Sign up</button>
+                <button type="button" class="btn-secondary">Sign up with Google</button>
+            </div>
+        </form>
+    </div>
+</div>
 </div>
