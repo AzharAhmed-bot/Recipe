@@ -1,6 +1,6 @@
 <nav class="navbar">
   <div class="navbar-brand">
-    <img src="../../assets/logo.png" alt="Logo" class="logo"> 
+    <a routerLink="/"><img src="../../assets/logo.png" alt="Logo" class="logo"></a>
   </div>
   <ul class="navbar-links" [ngClass]="{'active': isNavbarOpen}">
     <li class="nav-item">
@@ -23,7 +23,8 @@
     </li>
   </ul>
   <div class="action-button" [ngClass]="{'active': isNavbarOpen}">
-    <button class="btn-primary">Sign Up</button>
+    <a routerLink="/register"><button class="btn-primary"> Sign Up</button></a>
+    
   </div>
   <button class="navbar-toggle" (click)="toggleNavbar()">
     <svg

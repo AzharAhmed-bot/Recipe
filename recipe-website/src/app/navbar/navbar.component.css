@@ -7,7 +7,10 @@
   padding: 10px 20px;
   color: #333333; 
   border-bottom: 2px solid #9C9B7B; 
-  position: relative; 
+  position: fixed;
+  top: 0; 
+  width: 95%; 
+  z-index: 1000; 
 }
 
 .navbar-brand {
