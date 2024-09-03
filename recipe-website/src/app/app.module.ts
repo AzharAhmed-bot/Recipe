@@ -7,13 +7,15 @@ import { provideRouter } from '@angular/router';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HerosPageComponent } from './heros-page/heros-page.component';
+import { ScrollTriggerDirective } from './heros-page/ScrollTriggerDirective ';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignUpComponent,
     NavbarComponent,
-    HerosPageComponent
+    HerosPageComponent,
+    ScrollTriggerDirective
   ],
   imports: [
     BrowserModule,
