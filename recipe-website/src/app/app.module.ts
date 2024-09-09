@@ -11,6 +11,7 @@ import { ScrollTriggerDirective } from './heros-page/ScrollTriggerDirective ';
 import { FooterComponent } from './footer/footer.component';
 import { BlogComponent } from './blog/blog.component';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
+import { FaqComponent } from './faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { TestimonialsComponent } from './testimonials/testimonials.component';
     ScrollTriggerDirective,
     FooterComponent,
     BlogComponent,
-    TestimonialsComponent
+    TestimonialsComponent,
+    FaqComponent
   ],
   imports: [
     BrowserModule,
