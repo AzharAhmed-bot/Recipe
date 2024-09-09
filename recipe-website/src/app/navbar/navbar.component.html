@@ -21,9 +21,15 @@
         FAQ
       </a>
     </li>
+    <li *ngIf="session" class="nav-item">
+      <a routerLink="/profile" class="nav-link">
+        <i class="fas fa-user"></i>
+        Profile
+      </a>
+    </li>
   </ul>
   <div class="action-button" [ngClass]="{'active': isNavbarOpen}">
-    <button (click)="signOut()" class="btn-primary"  *ngIf="session">Sign Out</button>
+      <button (click)="signOut()" routerLink="/" class="btn-primary"  *ngIf="session">Sign Out</button>
     <a routerLink="/register">
       <button class="btn-primary"  *ngIf="!session"> Sign Up</button>
     </a>

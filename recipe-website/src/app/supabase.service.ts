@@ -13,6 +13,7 @@ export class SupabaseService {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
   }
 
+
   async getSession(): Promise<AuthSession | null> {
     const { data } = await this.supabase.auth.getSession();
     this._session = data.session;
@@ -49,4 +50,5 @@ export class SupabaseService {
       console.log(`Error logging out:`, error.message);
     }
   }
+  
 }
