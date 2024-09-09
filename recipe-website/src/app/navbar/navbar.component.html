@@ -23,8 +23,10 @@
     </li>
   </ul>
   <div class="action-button" [ngClass]="{'active': isNavbarOpen}">
-    <a routerLink="/register"><button class="btn-primary"> Sign Up</button></a>
-    
+    <button (click)="signOut()" class="btn-primary"  *ngIf="session">Sign Out</button>
+    <a routerLink="/register">
+      <button class="btn-primary"  *ngIf="!session"> Sign Up</button>
+    </a>
   </div>
   <button class="navbar-toggle" (click)="toggleNavbar()">
     <svg
