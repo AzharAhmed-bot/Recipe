@@ -4,8 +4,8 @@
         <h1>Welcome!</h1>
         <p>Sign up to spice up your life!</p>
         <div class="buttons">
-          <button type="button" class="google">Google</button>
-          <button type="button" class="github">Github</button>
+          <button type="button" (click)="loginWithProvider('google')" class="google">Google</button>
+          <button type="button" (click)="loginWithProvider('github')"  class="github">Github</button>
         </div>
       </div>
       <div class="divider">
@@ -21,6 +21,7 @@
               type="text"
               id="first-name"
               placeholder="Enter first name"
+              autocomplete
             />
           </div>
           <div class="form-control">
@@ -31,6 +32,7 @@
               type="text"
               id="last-name"
               placeholder="Enter last name"
+              autocomplete
             />
           </div>
           <div class="form-control">
@@ -41,6 +43,7 @@
               type="email"
               id="email"
               placeholder="Enter email"
+              autocomplete
             />
             <div *ngIf="email.hasError('pattern') && email.touched">
               <p class="error">Invalid email</p>
@@ -54,6 +57,7 @@
               type="password"
               id="password"
               placeholder="Enter password"
+              autocomplete
             />
             <div *ngIf="password.hasError('minLength') && password.touched">
               <p class="error">Short password</p>

@@ -1,4 +1,4 @@
-.container {
+.hero-container {
     display: flex;
     margin-top: 4.3rem;
     align-items: center;
@@ -95,21 +95,7 @@
     height: 100%;
   }
   
-  .utensils {
-    position: absolute;
-    top: 20%;
-    left: 10%;
-    width: 10%;
-    animation: bounce 2s infinite;
-  }
-  
-  .spices {
-    position: absolute;
-    bottom: 20%;
-    right: 10%;
-    width: 10%;
-    animation: spin 2s infinite;
-  }
+
   
   @keyframes bounce {
     0%, 100% {
@@ -128,11 +114,11 @@
       transform: rotate(180deg);
     }
   }
-  
   @media (max-width: 768px) {
-    .container {
+    .hero-container {
       flex-direction: column;
       text-align: center;
+      width: 100%;
     }
   
     .text-content {

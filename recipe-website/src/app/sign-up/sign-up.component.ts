@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, provideRouter } from '@angular/router';
 import { FormGroup,FormControl,Validators } from '@angular/forms';
 import { AppRoutingModule } from '../app-routing.module';
+import { SupabaseService } from '../supabase.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -11,7 +12,9 @@ export class SignUpComponent {
 
   form:any;
 
-  constructor(){
+  constructor(private supabase:SupabaseService){
+    this.supabase=new SupabaseService();
+
     this.form = new FormGroup({
       firstName: new FormControl('',[
         Validators.required,
@@ -45,8 +48,21 @@ export class SignUpComponent {
   }
 
 
-  onSignUp(){
-    console.log(this.form.value);
+  async onSignUp(){
+    if(this.form.valide){
+      const{email,password}=this.form.value;
+      try{
+        await this.supabase.loginWithEmailPassword(email,password);
+        console.log(this.supabase._session);
+      }catch(error){
+        console.log('Sign-up failed:', error);
+      }
+    }
+  }
+
+  loginWithProvider(provider:string){
+    this.supabase.loginWithProvider(provider);
+    console.log(this.supabase._session);
   }
 
 }

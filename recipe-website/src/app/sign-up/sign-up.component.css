@@ -4,6 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin-top: 2rem;
     background-color: #FFFFFF;
 }
 
@@ -11,8 +12,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 70%;
-    height: 70%;
+    width: 80%;
+    height: 80%;
     background-color: rgba(245, 245, 245, 0.8);
     padding: 2rem;
     border-radius: 12px;
