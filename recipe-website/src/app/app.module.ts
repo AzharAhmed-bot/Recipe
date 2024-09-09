@@ -8,6 +8,9 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HerosPageComponent } from './heros-page/heros-page.component';
 import { ScrollTriggerDirective } from './heros-page/ScrollTriggerDirective ';
+import { FooterComponent } from './footer/footer.component';
+import { BlogComponent } from './blog/blog.component';
+import { TestimonialsComponent } from './testimonials/testimonials.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +18,10 @@ import { ScrollTriggerDirective } from './heros-page/ScrollTriggerDirective ';
     SignUpComponent,
     NavbarComponent,
     HerosPageComponent,
-    ScrollTriggerDirective
+    ScrollTriggerDirective,
+    FooterComponent,
+    BlogComponent,
+    TestimonialsComponent
   ],
   imports: [
     BrowserModule,
