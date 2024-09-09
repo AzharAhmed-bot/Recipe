@@ -28,4 +28,16 @@
     </div>
   </div>
 </div>
-  
+<div class="container-3">
+  <h1>Our Best <br> Recipes</h1>
+  <div class="palette">
+    <div class="color" *ngFor="let recipe of recipes; let i = index" [style.backgroundImage]="'url(' + recipe.image + ')'">
+      <div class="recipe-content">
+        <h2 class="title">{{ recipe.title }}</h2>
+        <p>{{ recipe.description }}</p>
+        <p>Prep Time: {{ recipe.prepationTime }}</p>
+        <p>Served Method: {{ recipe.servedMethod }}</p>
+      </div>
+    </div>
+  </div>
+</div>
