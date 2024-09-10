@@ -5,11 +5,13 @@ import { HerosPageComponent } from './heros-page/heros-page.component';
 import { FaqComponent } from './faq/faq.component';
 import { ProfileComponent } from './profile/profile.component';
 import { authGuard } from './auth.guard';
+import { DetailedRecipesComponent } from './detailed-recipes/detailed-recipes.component';
 const routes: Routes = [
   {path:"",component:HerosPageComponent},
   { path: 'register', component: SignUpComponent },
   {path:"faqs", component:FaqComponent},
-  {path:"profile", component:ProfileComponent,canActivate:[authGuard], }
+  {path:"profile", component:ProfileComponent,canActivate:[authGuard], },
+  {path:"recipes", component:DetailedRecipesComponent,canActivate:[authGuard],},
 ];
 
 @NgModule({

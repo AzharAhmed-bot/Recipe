@@ -1,0 +1,53 @@
+<div class="search-bar">
+    <!-- Search by Name -->
+    <input type="text" placeholder="Search by Name" [(ngModel)]="searchText" (input)="filterRecipes()" />
+  
+    <!-- Search by Category -->
+    <select [(ngModel)]="selectedCategory" (change)="filterRecipes()">
+      <option value="">All Categories</option>
+      <option *ngFor="let category of uniqueCategories" [value]="category">{{ category }}</option>
+    </select>
+  </div>
+  
+
+  <div class="loader"  *ngIf="loading">
+    <div class="loader-text">Loading...</div>
+    <div class="loader-bar"></div>
+  </div>
+  
+  
+  <!-- Recipes -->
+  <div class="recipe-container" *ngIf="!loading && recipes.length > 0">
+    <div *ngFor="let recipe of filteredRecipes" class="card">
+      <div class="image-container">
+        <img [src]="recipe.image" alt="{{recipe.title}}" class="recipe-image">
+      </div>
+      <div class="card-content">
+        <h2 class="recipe-title">{{ recipe.title }}</h2>
+        <p class="prep-time"><strong>Prep Time:</strong> {{ recipe.preparation_time }}</p>
+        <p class="category"><strong>Category:</strong> {{ recipe.Category.name }}</p>
+        <div class="divider"></div>
+        <p class="serving-method"><strong>Serving:</strong> {{ recipe.serving_method }}</p>
+        
+      </div>
+      <div class="hover-content">
+        <h3>Instructions</h3>
+        <ul>
+          <li *ngFor="let instruction of recipe.instructions; let i = index">
+            {{ i + 1 }}. {{ instruction }}
+          </li>
+        </ul>
+        <h4>Health Info:</h4>
+        <p><strong>Shelf Life:</strong> {{ recipe['recipe-health'].shelf_life }}</p>
+        <p><strong>Nutrition:</strong> {{ recipe['recipe-health'].nutrition_benefit }}</p>
+        <p><strong>Allergies:</strong> {{ recipe['recipe-health'].potential_allergies }}</p>
+        <p class="review"><em>"{{ recipe.Reviews.review }}"</em></p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- No Recipes Found Message -->
+  <div class="no-recipes" *ngIf="!loading && recipes.length === 0">
+    <p>No recipes found.</p>
+  </div>
+  

@@ -8,14 +8,7 @@ import { SupabaseService } from '../supabase.service';
   styleUrls: ['./heros-page.component.css']
 })
 export class HerosPageComponent {
- recipes:any;
-
- constructor(private supabase: SupabaseService) {
-   this.supabase.allRecipes().then(recipes => {
-     this.recipes = recipes;
-     console.log(this.recipes);
-   });
- }
+ 
 
 }
 

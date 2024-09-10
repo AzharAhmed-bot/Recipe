@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthSession, createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from './env/environment';
-import { ReviewProps } from '../Props/data.props';
+import { RecipeProps, ReviewProps } from '../Props/data.props';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -56,12 +56,13 @@ export class SupabaseService {
   }
 
   async allRecipes(){
-    const{data,error}=await this.supabase.from("Recipe").select(`id,image,title,instructions,preparation_time,serving_method,Reviews(review)`);
+    const{data,error}=await this.supabase.from("Recipe").select(`id,image,title,instructions,preparation_time,serving_method,Reviews(review),Category(name),recipe-health(shelf_life,nutrition_benefit,potential_allergies)`);
     if(error){
       console.error('Error fetching recipes:', error.message);
-      return null;
+      return [];
     }
-    return data
+    const recipes=data ?? []
+    return recipes
   }
 
   async allReviews(): Promise<ReviewProps[]> {

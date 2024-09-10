@@ -3,6 +3,8 @@ export interface RecipeProps{
     image:string
     title:string
     instruction:string
+    preparation_time:string
+    serving_method:string
     categord_name:string
     shelf_life:string
     nutrition_benefit:string
