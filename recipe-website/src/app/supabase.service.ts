@@ -50,5 +50,6 @@ export class SupabaseService {
       console.log(`Error logging out:`, error.message);
     }
   }
+
   
 }
