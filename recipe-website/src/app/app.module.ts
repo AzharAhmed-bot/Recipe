@@ -15,6 +15,7 @@ import { FaqComponent } from './faq/faq.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { DetailedRecipesComponent } from './detailed-recipes/detailed-recipes.component';
+import { AboutusComponent } from './aboutus/aboutus.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DetailedRecipesComponent } from './detailed-recipes/detailed-recipes.co
     FaqComponent,
     ProfileComponent,
     RecipesComponent,
-    DetailedRecipesComponent
+    DetailedRecipesComponent,
+    AboutusComponent
   ],
   imports: [
     BrowserModule,

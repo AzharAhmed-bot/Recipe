@@ -46,8 +46,9 @@
     </div>
   </div>
   
-  <!-- No Recipes Found Message -->
-  <div class="no-recipes" *ngIf="!loading && recipes.length === 0">
-    <p>No recipes found.</p>
+
+  <div class="loader"  *ngIf="!loading && recipes.length === 0">
+    <div class="loader-text">No recipes</div>
+    <div class="loader-bar"></div>
   </div>
   

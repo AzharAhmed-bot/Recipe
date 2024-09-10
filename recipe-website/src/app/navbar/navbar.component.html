@@ -3,13 +3,25 @@
     <a routerLink="/"><img src="../../assets/logo.png" alt="Logo" class="logo"></a>
   </div>
   <ul class="navbar-links" [ngClass]="{'active': isNavbarOpen}">
-    <li class="nav-item">
-      <a routerLink="/home" class="nav-link">
-        <i class="fas fa-home"></i>
-        Home
+    <li  class="nav-item">
+      <a routerLink="/about-us" class="nav-link">
+        <i class="fas fa-info"></i>
+        About
       </a>
     </li>
-    <li class="nav-item">
+    <li  class="nav-item">
+      <a routerLink="/about-us" class="nav-link">
+        <i class="fas fa-envelope"></i>
+        Contact
+      </a>
+    </li>
+    <li *ngIf="session" class="nav-item">
+      <a routerLink="/favorites" class="nav-link">
+        <i class="fas fa-heart"></i>
+        Favorites
+      </a>
+    </li>
+    <li *ngIf="session" class="nav-item">
       <a routerLink="/recipes" class="nav-link">
         <i class="fas fa-utensils"></i>
         Recipes
@@ -21,12 +33,14 @@
         FAQ
       </a>
     </li>
+    
     <li *ngIf="session" class="nav-item">
       <a routerLink="/profile" class="nav-link">
         <i class="fas fa-user"></i>
         Profile
       </a>
     </li>
+    
   </ul>
   <div class="action-button" [ngClass]="{'active': isNavbarOpen}">
       <button (click)="signOut()" routerLink="/" class="btn-primary"  *ngIf="session">Sign Out</button>
