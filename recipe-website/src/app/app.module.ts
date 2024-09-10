@@ -18,6 +18,8 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { DetailedRecipesComponent } from './detailed-recipes/detailed-recipes.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { FavoritesComponent } from './favorites/favorites.component';
+import { RecipeFormComponent } from './recipe-form/recipe-form.component';
+
 
 
 @NgModule({
@@ -35,7 +37,8 @@ import { FavoritesComponent } from './favorites/favorites.component';
     RecipesComponent,
     DetailedRecipesComponent,
     AboutusComponent,
-    FavoritesComponent
+    FavoritesComponent,
+    RecipeFormComponent
   ],
   imports: [
     BrowserModule,

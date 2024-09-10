@@ -7,14 +7,25 @@
       <option value="">All Categories</option>
       <option *ngFor="let category of uniqueCategories" [value]="category">{{ category }}</option>
     </select>
+  
+    <button class="group cursor-pointer outline-none hover:rotate-90 duration-300" title="Add New Recipe" (click)="toggleRecipeForm()">
+      <svg class="stroke-[#800020] fill-none group-hover:fill-[#ff7094] group-active:stroke-[#800020] group-active:fill-[#800020] group-active:duration-0 duration-300"
+          viewBox="0 0 24 24"
+          height="50px"
+          width="50px"
+          xmlns="http://www.w3.org/2000/svg"
+      >
+        <path stroke-width="1.5" d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"></path>
+        <path stroke-width="1.5" d="M8 12H16"></path>
+        <path stroke-width="1.5" d="M12 16V8"></path>
+      </svg>
+    </button>
   </div>
   
-
-  <div class="loader"  *ngIf="loading">
+  <div class="loader" *ngIf="loading">
     <div class="loader-text">Loading...</div>
     <div class="loader-bar"></div>
   </div>
-  
   
   <!-- Recipes -->
   <div class="recipe-container" *ngIf="!loading && recipes.length > 0">
@@ -28,7 +39,6 @@
         <p class="category"><strong>Category:</strong> {{ recipe.Category.name }}</p>
         <div class="divider"></div>
         <p class="serving-method"><strong>Serving:</strong> {{ recipe.serving_method }}</p>
-        
       </div>
       <div class="hover-content">
         <h3>Instructions</h3>
@@ -47,9 +57,11 @@
     </div>
   </div>
   
-
-  <div class="loader"  *ngIf="!loading && recipes.length === 0">
+  <div class="loader" *ngIf="!loading && recipes.length === 0">
     <div class="loader-text">No recipes</div>
     <div class="loader-bar"></div>
   </div>
+  
+  <!-- Recipe Form Overlay -->
+  <app-recipe-form *ngIf="showRecipeForm" (closeForm)="handleCloseForm()"></app-recipe-form>
   

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SupabaseService } from '../supabase.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { FavoritesService } from '../favorites.service';
+
 @Component({
   selector: 'app-detailed-recipes',
   templateUrl: './detailed-recipes.component.html',
@@ -14,8 +15,13 @@ export class DetailedRecipesComponent implements OnInit {
   selectedCategory: string = '';
   uniqueCategories: string[] = [];
   loading: boolean = true;
+  showRecipeForm: boolean = false;
 
-  constructor(private supabase: SupabaseService,private toast:HotToastService,private favoritesService:FavoritesService) { }
+  constructor(
+    private supabase: SupabaseService,
+    private toast: HotToastService,
+    private favoritesService: FavoritesService
+  ) { }
 
   ngOnInit() {
     this.loadRecipes();
@@ -34,15 +40,24 @@ export class DetailedRecipesComponent implements OnInit {
     }
   }
 
-  addToFavorites(recipe:any) {
+  addToFavorites(recipe: any) {
     this.favoritesService.addFavorite(recipe);
     this.toast.success('Recipe added to favorites!');
   }
+
   filterRecipes() {
     this.filteredRecipes = this.recipes.filter(recipe => {
       const matchesName = recipe.title.toLowerCase().includes(this.searchText.toLowerCase());
       const matchesCategory = this.selectedCategory ? recipe.Category.name === this.selectedCategory : true;
       return matchesName && matchesCategory;
     });
+  }
+
+  toggleRecipeForm() {
+    this.showRecipeForm = !this.showRecipeForm;
+  }
+
+  handleCloseForm() {
+    this.showRecipeForm = false;
   }
 }
