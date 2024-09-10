@@ -4,6 +4,7 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideRouter } from '@angular/router';
+import { HotToastModule } from '@ngneat/hot-toast';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HerosPageComponent } from './heros-page/heros-page.component';
@@ -16,6 +17,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { DetailedRecipesComponent } from './detailed-recipes/detailed-recipes.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
+import { FavoritesComponent } from './favorites/favorites.component';
+
 
 @NgModule({
   declarations: [
@@ -31,13 +34,15 @@ import { AboutusComponent } from './aboutus/aboutus.component';
     ProfileComponent,
     RecipesComponent,
     DetailedRecipesComponent,
-    AboutusComponent
+    AboutusComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HotToastModule.forRoot()
   ],
   providers: [
     provideRouter([])

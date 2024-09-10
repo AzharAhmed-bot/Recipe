@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SupabaseService } from '../supabase.service';
 import { AuthSession } from '@supabase/supabase-js';
+import { FavoritesService } from '../favorites.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,11 +11,18 @@ import { AuthSession } from '@supabase/supabase-js';
 export class NavbarComponent implements OnInit {
   isNavbarOpen = false;
   session: AuthSession | null = null;
+  favourites: number = 0;
 
-  constructor(private supabase: SupabaseService) {}
+  constructor(
+    private supabase: SupabaseService,
+    private favoritesService: FavoritesService
+  ) {}
 
   ngOnInit() {
     this.fetchSession();
+    this.favoritesService.getFavoritesCount().subscribe(count => {
+      this.favourites = count;
+    });
   }
 
   async fetchSession() {

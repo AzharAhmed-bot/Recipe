@@ -1,0 +1,40 @@
+<div class="loader" *ngIf="loading">
+    <div class="loader-text">Loading...</div>
+    <div class="loader-bar"></div>
+  </div>
+  
+  <!-- Favorites -->
+  <div class="recipe-container" *ngIf="!loading && favorites.length > 0">
+    <div *ngFor="let recipe of favorites" class="card">
+      <div class="image-container">
+        <img [src]="recipe.image" alt="{{ recipe.title }}" class="recipe-image">
+      </div>
+      <div class="card-content">
+        <h2 class="recipe-title">{{ recipe.title }}</h2>
+        <p class="prep-time"><strong>Prep Time:</strong> {{ recipe.preparation_time }}</p>
+        <p class="category"><strong>Category:</strong> {{ recipe.Category.name }}</p>
+        <div class="divider"></div>
+        <p class="serving-method"><strong>Serving:</strong> {{ recipe.serving_method }}</p>
+      </div>
+      <div class="hover-content">
+        <h3>Instructions</h3>
+        <ul>
+          <li *ngFor="let instruction of recipe.instructions; let i = index">
+            {{ i + 1 }}. {{ instruction }}
+          </li>
+        </ul>
+        <h4>Health Info:</h4>
+        <p><strong>Shelf Life:</strong> {{ recipe['recipe-health'].shelf_life }}</p>
+        <p><strong>Nutrition:</strong> {{ recipe['recipe-health'].nutrition_benefit }}</p>
+        <p><strong>Allergies:</strong> {{ recipe['recipe-health'].potential_allergies }}</p>
+        <p class="review"><em>"{{ recipe.Reviews.review }}"</em></p>
+        <button (click)="removeFavorite(recipe)" class="smky-btn3 relative mt-2 hover:text-white py-2 px-6 after:absolute after:h-1 after:hover:h-[200%] transition-all duration-500 hover:transition-all hover:duration-500 after:transition-all after:duration-500 after:hover:transition-all after:hover:duration-500 overflow-hidden z-20 after:z-[-20] after:bg-[#800020] after:rounded-t-full after:w-full after:bottom-0 after:left-0 text-gray-600">Remove from fav</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="loader" *ngIf="!loading && favorites.length === 0">
+    <div class="loader-text">No favorites</div>
+    <div class="loader-bar"></div>
+  </div>
+  

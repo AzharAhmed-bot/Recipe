@@ -1,0 +1,157 @@
+/* Container for all recipe cards */
+.recipe-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+/* Styling for individual cards */
+.card {
+    position: relative;
+    width: 280px;
+    height: 420px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Image section */
+.image-container {
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.image-container img.recipe-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.card:hover .image-container img.recipe-image {
+    transform: scale(1.1);
+}
+
+/* Content under the image */
+.card-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.recipe-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.prep-time, .category, .serving-method {
+    font-size: 0.9rem;
+    color: #777;
+    margin: 5px 0;
+}
+
+.divider {
+    width: 50px;
+    height: 2px;
+    background-color: #800020;
+    margin: 10px auto;
+}
+
+.review {
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* Hover content */
+.hover-content {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    overflow-y: auto;
+    transition: bottom 0.4s ease;
+}
+
+.card:hover .hover-content {
+    bottom: 0;
+}
+
+.hover-content h3 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.hover-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.hover-content li {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 5px 0;
+}
+
+.hover-content h4 {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Loader Styling */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 80vh;
+}
+
+.loader-text {
+    font-size: 24px;
+    color: rgb(0, 0, 0);
+    margin-bottom: 20px;
+    align-self: center;
+}
+
+.loader-bar {
+    width: 30%;
+    height: 10px;
+    border-radius: 5px;
+    background-color: rgb(0, 0, 0);
+    animation: loader-bar-animation 2s ease-in-out infinite;
+}
+
+@keyframes loader-bar-animation {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}

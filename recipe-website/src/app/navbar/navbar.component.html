@@ -17,8 +17,8 @@
     </li>
     <li *ngIf="session" class="nav-item">
       <a routerLink="/favorites" class="nav-link">
-        <i class="fas fa-heart"></i>
-        Favorites
+        <span *ngIf="favourites > 0 " class="favorites-count fas fa-heart  ">{{ favourites }}</span>
+        Favorites 
       </a>
     </li>
     <li *ngIf="session" class="nav-item">

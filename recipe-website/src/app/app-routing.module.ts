@@ -7,6 +7,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { authGuard } from './auth.guard';
 import { DetailedRecipesComponent } from './detailed-recipes/detailed-recipes.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
+import { FavoritesComponent } from './favorites/favorites.component';
 const routes: Routes = [
   {path:"",component:HerosPageComponent},
   {path:"about-us",component:AboutusComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path:"faqs", component:FaqComponent},
   {path:"profile", component:ProfileComponent,canActivate:[authGuard], },
   {path:"recipes", component:DetailedRecipesComponent,canActivate:[authGuard],},
+  {path:"favorites",component:FavoritesComponent, canActivate:[authGuard]}
 ];
 
 @NgModule({
