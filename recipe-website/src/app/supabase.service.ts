@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AuthSession, createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from './env/environment';
+import { ReviewProps } from '../Props/data.props';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,8 @@ import { environment } from './env/environment';
 export class SupabaseService {
   private supabase: SupabaseClient;
   _session: AuthSession | null = null;
+  private reviewSubject=new BehaviorSubject<any[]>([]);
+  public reviewChanges$=this.reviewSubject.asObservable();
 
   constructor() {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
@@ -51,5 +55,37 @@ export class SupabaseService {
     }
   }
 
+  async allRecipes(){
+    const{data,error}=await this.supabase.from("Recipe").select(`id,image,title,instructions,preparation_time,serving_method,Reviews(review)`);
+    if(error){
+      console.error('Error fetching recipes:', error.message);
+      return null;
+    }
+    return data
+  }
+
+  async allReviews(): Promise<ReviewProps[]> {
+    let { data, error } = await this.supabase
+      .from('Reviews')
+      .select(`id,review,rating`); 
+  
+    if (error) {
+      console.error('Error fetching reviews:', error.message);
+      return []; 
+    }
+    const reviews=data ?? []
+    return reviews;
+  }
+
+subscribeToReviews(){
+  const Reviews=this.supabase.channel('custom-all-channel').on('postgres_changes',{event:"*",schema:'public',table:'Reviews'},(payload)=>{
+    console.log("Changes received",payload)
+    this.allReviews().then((reviews)=>{
+      this.reviewSubject.next(reviews);
+    })
+  }).subscribe()
+}
+  
+  
   
 }

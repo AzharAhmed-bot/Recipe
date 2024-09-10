@@ -12,7 +12,7 @@
     --c2: #dcdcdc;
     --c3: #fafafa;
     background-color: #F5F5F5;
-    background: conic-gradient(
+    /* background: conic-gradient(
             from 75deg,
             var(--c1) 15deg,
             var(--c2) 0 30deg,
@@ -35,7 +35,7 @@
         var(--c1) 0 286deg,
         var(--c2) 0 331deg,
         var(--c3) 0
-    );
+    ); */
     background-size: var(--s) calc(var(--s) / 0.577);
     border-radius: 5px;
   }
@@ -191,7 +191,7 @@
   justify-content: center;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
+  gap: 0rem;
 }
 .recipe-title{
   color: #800020;
@@ -203,8 +203,8 @@
 }
 .card {
   overflow: visible;
-  width: 190px;
-  height: 254px;
+  width: 250px;
+  height: 300px;
 }
 
 .content {
@@ -225,6 +225,13 @@
   -webkit-backface-visibility: hidden;
   border-radius: 5px;
   overflow: hidden;
+}
+
+.recipe-image {
+  width: 100%;   
+  height: auto;  
+  object-fit: cover; 
+  border-radius: 0%;  
 }
 
 .back {

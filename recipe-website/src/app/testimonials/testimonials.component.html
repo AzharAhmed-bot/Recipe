@@ -1,18 +1,14 @@
 <!-- Testimonials Section -->
 <div class="testimonials">
-    <h2>What Users <br> Say</h2>
-    <div class="testimonials-container">
-      <div class="testimonial-card">
-        <p>"Homes Recipe has changed the way I cook! The recipes are easy to follow and always turn out delicious."</p>
-        <h4>- Sarah J.</h4>
-      </div>
-      <div class="testimonial-card">
-        <p>"I love the variety of cultural recipes available. I feel like I'm traveling the world through my kitchen!"</p>
-        <h4>- David M.</h4>
-      </div>
-      <div class="testimonial-card">
-        <p>"The cooking tips have been a game-changer for me. My meals have never tasted better!"</p>
-        <h4>- Emily W.</h4>
+  <h2>What Users <br> Say</h2>
+  <div class="testimonials-container">
+    <div class="testimonial-card" *ngFor="let review of reviews">
+      <p>"{{review.review}}"</p>
+      <div class="rating">
+        <span *ngFor="let star of [1, 2, 3, 4, 5]">
+          <i class="fa fa-star" [ngClass]="{'gold': star <= review.rating}"></i>
+        </span>
       </div>
     </div>
   </div>
+</div>
