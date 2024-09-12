@@ -19,6 +19,7 @@ import { DetailedRecipesComponent } from './detailed-recipes/detailed-recipes.co
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { RecipeFormComponent } from './recipe-form/recipe-form.component';
+import { OverlayRecipeComponent } from './overlay-recipe/overlay-recipe.component';
 
 
 
@@ -38,7 +39,8 @@ import { RecipeFormComponent } from './recipe-form/recipe-form.component';
     DetailedRecipesComponent,
     AboutusComponent,
     FavoritesComponent,
-    RecipeFormComponent
+    RecipeFormComponent,
+    OverlayRecipeComponent
   ],
   imports: [
     BrowserModule,

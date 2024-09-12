@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Output,EventEmitter } from '@angular/core';
 import { SupabaseService } from '../supabase.service';
+import { RecipeProps } from 'src/Props/data.props';
+
 
 @Component({
   selector: 'app-recipes',
@@ -7,7 +9,9 @@ import { SupabaseService } from '../supabase.service';
   styleUrls: ['./recipes.component.css']
 })
 export class RecipesComponent {
-  recipes:any;
+  recipes:RecipeProps[] | undefined;
+  @Output() recipeSelected=new EventEmitter<any>();
+  selectedRecipe: any;
 
  constructor(private supabase: SupabaseService) {
    this.supabase.allRecipes().then(recipes => {
@@ -15,4 +19,8 @@ export class RecipesComponent {
      console.log(this.recipes);
    });
  }
+
+ onRecipeSelected(recipe: any): void {
+  this.selectedRecipe = recipe;
+}
 }

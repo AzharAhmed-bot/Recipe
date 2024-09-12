@@ -48,9 +48,9 @@
           </li>
         </ul>
         <h4>Health Info:</h4>
-        <p><strong>Shelf Life:</strong> {{ recipe['recipe-health'].shelf_life }}</p>
-        <p><strong>Nutrition:</strong> {{ recipe['recipe-health'].nutrition_benefit }}</p>
-        <p><strong>Allergies:</strong> {{ recipe['recipe-health'].potential_allergies }}</p>
+        <p><strong>Shelf Life:</strong> {{ recipe['RecipeHealth'].shelf_life }}</p>
+        <p><strong>Nutrition:</strong> {{ recipe['RecipeHealth'].nutrition_benefit }}</p>
+        <p><strong>Allergies:</strong> {{ recipe['RecipeHealth'].potential_allergies }}</p>
         <p class="review"><em>"{{ recipe.Reviews.review }}"</em></p>
         <button (click)="addToFavorites(recipe)" class="smky-btn3 relative mt-2 hover:text-white py-2 px-6 after:absolute after:h-1 after:hover:h-[200%] transition-all duration-500 hover:transition-all hover:duration-500 after:transition-all after:duration-500 after:hover:transition-all after:hover:duration-500 overflow-hidden z-20 after:z-[-20] after:bg-[#800020] after:rounded-t-full after:w-full after:bottom-0 after:left-0 text-gray-600">Add to fav</button>
       </div>

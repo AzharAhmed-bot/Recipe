@@ -3,7 +3,7 @@
     justify-content: center;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0rem;
+    gap: 3rem;
   }
   .recipe-title{
     color: #800020;
@@ -17,6 +17,7 @@
     overflow: visible;
     width: 250px;
     height: 300px;
+    cursor: pointer;
   }
   
   .content {

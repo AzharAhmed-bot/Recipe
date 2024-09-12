@@ -54,7 +54,7 @@ export class SupabaseService {
   }
 
   async allRecipes() {
-    const { data, error } = await this.supabase.from("Recipe").select(`id,image,title,instructions,preparation_time,serving_method,Reviews(review),Category(name),Recipe_health(shelf_life,nutrition_benefit,potential_allergies)`);
+    const { data, error } = await this.supabase.schema('public').from("Recipe").select(`recipe_uid,id,image,title,instructions,preparation_time,serving_method,Reviews(review),Category(name),RecipeHealth(nutrition_benefit,potential_allergies)`);
     if (error) {
       console.error('Error fetching recipes:', error.message);
       return [];
@@ -85,29 +85,4 @@ export class SupabaseService {
     }).subscribe();
   }
 
-  async addRecipe(recipe: any): Promise<void> {
-    const { error } = await this.supabase.from('Recipe').insert([
-      {
-        title: recipe.title,
-        image: recipe.image,
-        preparation_time: recipe.preparation_time,
-        serving_method: recipe.serving_method,
-        Category:{
-          name:recipe.category,
-        },
-        instructions: recipe.instructions,
-        recipe_health: {
-          shelf_life: recipe.healthInfo.shelf_life,
-          nutrition_benefit: recipe.healthInfo.nutrition_benefit,
-          potential_allergies: recipe.healthInfo.potential_allergies
-        }
-      }
-    ]);
-    
-    if (error) {
-      console.error('Error adding recipe:', error.message);
-    } else {
-      console.log('Recipe added successfully');
-    }
-  }
 }
