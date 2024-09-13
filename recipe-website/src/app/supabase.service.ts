@@ -12,6 +12,7 @@ export class SupabaseService {
   _session: AuthSession | null = null;
   private reviewSubject = new BehaviorSubject<any[]>([]);
   public reviewChanges$ = this.reviewSubject.asObservable();
+  public _recipeCache:RecipeProps[] |null=null;
 
   constructor() {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
@@ -54,13 +55,16 @@ export class SupabaseService {
   }
 
   async allRecipes() {
+    if(this._recipeCache){
+      return this._recipeCache;
+    }
     const { data, error } = await this.supabase.schema('public').from("Recipe").select(`recipe_uid,id,image,title,instructions,preparation_time,serving_method,Reviews(review),Category(name),RecipeHealth(nutrition_benefit,potential_allergies)`);
     if (error) {
       console.error('Error fetching recipes:', error.message);
       return [];
     }
-    const recipes = data ?? [];
-    return recipes;
+    this._recipeCache = data ?? [];
+    return this._recipeCache;
   }
 
   async allReviews(): Promise<ReviewProps[]> {
