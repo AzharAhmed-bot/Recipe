@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthSession, createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from './env/environment';
-import { RecipeProps, ReviewProps } from '../Props/data.props';
+import { RecipeHealthProps, RecipeProps, ReviewProps } from '../Props/data.props';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class SupabaseService {
   private reviewSubject = new BehaviorSubject<any[]>([]);
   public reviewChanges$ = this.reviewSubject.asObservable();
   public _recipeCache:RecipeProps[] |null=null;
+
 
   constructor() {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
@@ -54,18 +55,31 @@ export class SupabaseService {
     }
   }
 
+  async allRecipeHealth():Promise<RecipeHealthProps[]>{
+    const {data,error}=await this.supabase
+    .from('RecipeHealth')
+    .select(`shelf_life,nutrition_benefit,potential_allergies`);
+
+    if(error){
+      console.error('Error fetching recipe health:', error.message);
+    }
+    const recipeHealth=data ?? []
+    return recipeHealth
+  }
+
   async allRecipes() {
     if(this._recipeCache){
-      return this._recipeCache;
+      return this._recipeCache
     }
     const { data, error } = await this.supabase.schema('public').from("Recipe").select(`recipe_uid,id,image,title,instructions,preparation_time,serving_method,Reviews(review),Category(name),RecipeHealth(nutrition_benefit,potential_allergies)`);
     if (error) {
       console.error('Error fetching recipes:', error.message);
       return [];
     }
-    this._recipeCache = data ?? [];
+    this._recipeCache=data ?? [];
     return this._recipeCache;
   }
+
 
   async allReviews(): Promise<ReviewProps[]> {
     let { data, error } = await this.supabase
@@ -88,5 +102,7 @@ export class SupabaseService {
       });
     }).subscribe();
   }
+
+
 
 }

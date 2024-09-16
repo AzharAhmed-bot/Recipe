@@ -8,7 +8,7 @@
       <option *ngFor="let category of uniqueCategories" [value]="category">{{ category }}</option>
     </select>
   
-    <button class="group cursor-pointer outline-none hover:rotate-90 duration-300" title="Add New Recipe" (click)="toggleRecipeForm()">
+    <button class="group cursor-pointer outline-none hover:rotate-90 duration-300" title="Add New Recipe" (click)="addRecipe()">
       <svg class="stroke-[#800020] fill-none group-hover:fill-[#ff7094] group-active:stroke-[#800020] group-active:fill-[#800020] group-active:duration-0 duration-300"
           viewBox="0 0 24 24"
           height="50px"
@@ -63,5 +63,5 @@
   </div>
   
   <!-- Recipe Form Overlay -->
-  <app-recipe-form *ngIf="showRecipeForm" (closeForm)="handleCloseForm()"></app-recipe-form>
+
   

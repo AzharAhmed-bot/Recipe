@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SupabaseService } from '../supabase.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { FavoritesService } from '../favorites.service';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detailed-recipes',
@@ -15,12 +17,13 @@ export class DetailedRecipesComponent implements OnInit {
   selectedCategory: string = '';
   uniqueCategories: string[] = [];
   loading: boolean = true;
-  showRecipeForm: boolean = false;
+  subscription:Subscription|undefined;
 
   constructor(
     private supabase: SupabaseService,
     private toast: HotToastService,
-    private favoritesService: FavoritesService
+    private favoritesService: FavoritesService,
+    private router:Router
   ) { }
 
   ngOnInit() {
@@ -53,11 +56,8 @@ export class DetailedRecipesComponent implements OnInit {
     });
   }
 
-  toggleRecipeForm() {
-    this.showRecipeForm = !this.showRecipeForm;
+  addRecipe(){
+    this.router.navigate(['/new-recipe'])
   }
 
-  handleCloseForm() {
-    this.showRecipeForm = false;
-  }
 }

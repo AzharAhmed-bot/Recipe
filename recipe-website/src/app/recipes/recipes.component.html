@@ -1,7 +1,7 @@
 <div class="recipes">
     <h2 class="recipe-title">Our Best <br> Dishes</h2>
     <div class="container-3">
-    <div title="Click to view more"  class="card" *ngFor="let recipe of recipes" (click)="onRecipeSelected(recipe)">
+    <div class="card" *ngFor="let recipe of recipes">
       <div class="content">
         <div class="back">
           <div class="back-content">
@@ -31,5 +31,3 @@
     </div>
     </div>
     </div>
-
-<app-overlay-recipe *ngIf="selectedRecipe" [selectedRecipe]="selectedRecipe"></app-overlay-recipe>
