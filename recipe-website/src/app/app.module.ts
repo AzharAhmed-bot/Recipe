@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideRouter } from '@angular/router';
 import { HotToastModule } from '@ngneat/hot-toast';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HerosPageComponent } from './heros-page/heros-page.component';
@@ -46,6 +47,7 @@ import { RecipeFormComponent } from './recipe-form/recipe-form.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    DragDropModule,
     HotToastModule.forRoot()
   ],
   providers: [

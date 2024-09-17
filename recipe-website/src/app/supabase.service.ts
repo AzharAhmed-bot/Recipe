@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthSession, createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from './env/environment';
-import { RecipeHealthProps, RecipeProps, ReviewProps } from '../Props/data.props';
+import { CategoryProps, RecipeHealthProps, RecipeProps, ReviewProps } from '../Props/data.props';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -11,7 +11,11 @@ export class SupabaseService {
   private supabase: SupabaseClient;
   _session: AuthSession | null = null;
   private reviewSubject = new BehaviorSubject<any[]>([]);
+  private categorySubject=new BehaviorSubject<CategoryProps[]>([]);
+  private recipeHealthSubject=new BehaviorSubject<RecipeHealthProps[]>([]);
   public reviewChanges$ = this.reviewSubject.asObservable();
+  public categoryChanges$=this.categorySubject.asObservable();
+  public recipeHealthChanges$=this.recipeHealthSubject.asObservable();
   public _recipeCache:RecipeProps[] |null=null;
 
 
@@ -67,6 +71,19 @@ export class SupabaseService {
     return recipeHealth
   }
 
+  async allCategory():Promise<CategoryProps[]>{
+    const {data,error}=await this.supabase
+    .from('Category')
+    .select('id,name')
+
+    if(error){
+      console.error("Erro fetching categories",error.message);
+    }
+    const categories=data ?? []
+    return categories
+  }
+
+
   async allRecipes() {
     if(this._recipeCache){
       return this._recipeCache
@@ -102,6 +119,27 @@ export class SupabaseService {
       });
     }).subscribe();
   }
+
+  subscribeToCategories(){
+    const categories=this.supabase
+    .channel('custom-all-channel')
+    .on('postgres_changes',{event:"*",schema:"public",table:"Category"},(payload)=>{
+      this.allCategory().then((categories)=>{
+        this.categorySubject.next(categories)
+      })
+    }).subscribe()
+  }
+  subscribeToRecipeHealth(){
+    const categories=this.supabase
+    .channel('custom-all-channel')
+    .on('postgres_changes',{event:"*",schema:"public",table:"RecipeHealth"},(payload)=>{
+      this.allRecipeHealth().then((recipeHealth)=>{
+        this.recipeHealthSubject.next(recipeHealth)
+      })
+    }).subscribe()
+  }
+
+
 
 
 

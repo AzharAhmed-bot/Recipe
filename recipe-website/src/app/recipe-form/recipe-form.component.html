@@ -1,1 +1,109 @@
-<p>Hello from recipe form</p>
+<!-- Left Sidebar -->
+<form class="fixed top-0 left-0 h-screen w-64 mt-16 bg-gray-50 shadow-lg shadow-black p-4 overflow-x-auto" [formGroup]="newRecipe" (ngSubmit)="addRecipe()">
+    <div class="mb-4">
+      <h2 class="text-lg font-bold">Create a Recipe</h2>
+    </div>
+  
+    <!-- Recipe Title Input -->
+    <div class="mb-4">
+      <label for="recipe-title" class="block text-gray-700">Recipe Title</label>
+      <input id="recipe-title" type="text" formControlName="title" class="w-full p-2 border border-gray-300 rounded">
+    </div>
+  
+    <!-- Image Upload -->
+    <div class="mb-4">
+      <label for="recipe-image" class="block text-gray-700">Upload Image</label>
+      <input id="recipe-image" type="file" class="w-full p-2 border border-gray-300 rounded" (change)="onFileSelected($event)">
+    </div>
+  
+    <!-- Instructions with Add Button -->
+    <div class="mb-4">
+      <label class="block text-gray-700">Instructions</label>
+      <div formArrayName="instructions">
+        <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i">
+          <div class="flex items-center">
+            <input type="text" formControlName="0" class="w-3/4 p-2 mb-2 mt-2 border border-gray-300 rounded">
+            <button class="w-1/4 bg-red-500 text-white py-2 px-1 rounded mb-2 mt-2" (click)="removeInstruction(i)">-</button>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="bg-[#800020] text-white px-2 py-1 rounded" (click)="addInstruction()">+ Add Instruction</button>
+    </div>
+  
+    <!-- Serving Method -->
+    <div class="mb-4">
+      <label for="serving-method" class="block text-gray-700">Serving Method</label>
+      <input id="serving-method" type="text" formControlName="servingMethod" class="w-full p-2 border border-gray-300 rounded">
+    </div>
+  
+    <!-- Preparation Time -->
+    <div class="mb-4">
+      <label for="preparation-time" class="block text-gray-700">Preparation Time (mins)</label>
+      <input id="preparation-time" type="number" formControlName="preparationTime" class="w-full p-2 border border-gray-300 rounded">
+    </div>
+  
+    <!-- Add to Recipe Button -->
+    <button [disabled]="newRecipe.invalid" [ngStyle]="{ cursor: newRecipe.valid ? 'pointer' : 'not-allowed' }"type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Add to Recipe</button>
+  </form>
+  
+  <!-- Center Panel -->
+  <div class="flex-1 ml-72 mr-72 mt-16 p-4 bg-gray-100 rounded-lg shadow-lg">
+    <div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" *ngIf="!recipeDetails">
+      <div class="text-center">
+        <p class="text-xl font-bold text-gray-500">No recipes yet</p>
+      </div>
+    </div>
+  
+    <div *ngIf="recipeDetails">
+      <h2 class="text-2xl font-bold mb-4">{{ recipeDetails.title }}</h2>
+      <img *ngIf="recipeDetails.image" [src]="recipeDetails.image" alt="Recipe Image" class="w-1/2 h-auto mb-4 rounded-lg shadow-md">
+      <p><strong>Preparation Time:</strong> {{ recipeDetails.preparationTime }} mins</p>
+      <p><strong>Serving Method:</strong> {{ recipeDetails.servingMethod }}</p>
+  
+      <!-- Instructions -->
+      <h3 class="text-lg font-semibold mt-4">Instructions</h3>
+      <ol class="list-decimal pl-4 space-y-2">
+        <li *ngFor="let instruction of recipeDetails.instructions">{{ instruction }}</li>
+      </ol>
+  
+      <!-- Recipe Category and Health -->
+      <div class="mt-6 space-y-4">
+        <div>
+          <h3 class="text-lg font-semibold">Category</h3>
+          <p>{{ recipeDetails.category?.name }}</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold">Recipe Health</h3>
+          <p>{{ recipeDetails.recipeHealth?.name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<!-- Right Sidebar -->
+<div class="fixed top-0 right-0 h-screen w-64 mt-16 bg-gray-50 shadow-lg shadow-black p-4 overflow-x-auto">
+    <div class="mb-4">
+      <h2 class="text-lg font-bold">Available Categories</h2>
+    </div>
+  
+    <!-- Categories (draggable) -->
+    <div class="flex flex-col gap-4">
+      <div *ngFor="let category of categories" class="p-2 bg-white shadow-md rounded-lg z-1000" cdkDrag cdkDragPlaceholder>
+        <p>{{ category.name }}</p>
+      </div>
+    </div>
+  
+    <div class="mt-8 mb-4">
+      <h2 class="text-lg font-bold">Recipe Health</h2>
+    </div>
+  
+    <!-- Recipe Health (draggable) -->
+    <div class="flex flex-col gap-4">
+      <div *ngFor="let health of recipeHealths" class="bg-white shadow-md rounded-lg p-4" cdkDrag cdkDragPlaceholder>
+        <p><strong>Shelf Life:</strong> {{ health.shelf_life }}</p>
+        <p><strong>Nutrition Benefits:</strong> {{ health.nutrition_benefit }}</p>
+        <p><strong>Potential Allergens:</strong> {{ health.potential_allergies }}</p>
+      </div>
+    </div>
+  </div>
+  
