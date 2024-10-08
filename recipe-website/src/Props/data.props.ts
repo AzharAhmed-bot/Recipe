@@ -17,9 +17,8 @@ export interface NewRecipeProp{
     instructions: string[];
     preparation_time: string;
     serving_method: string;
-    Reviews: {review:string};
-    Category: {name:string}[];
-    RecipeHealth: { nutrition_benefit: string; potential_allergies: string; }[];
+    category_id: number;
+    recipe_health_id:number;
 }
 
 export interface CategoryProps{
@@ -34,8 +33,11 @@ export interface ReviewProps{
 }
 
 export interface RecipeHealthProps {
+    id?:number;
     shelf_life:string;
     nutrition_benefit: string;
     potential_allergies: string;
 }
+
+
 

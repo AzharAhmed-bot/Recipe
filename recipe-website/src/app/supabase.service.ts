@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AuthSession, createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from './env/environment';
-import { CategoryProps, RecipeHealthProps, RecipeProps, ReviewProps } from '../Props/data.props';
+import { CategoryProps, NewRecipeProp, RecipeHealthProps, RecipeProps, ReviewProps } from '../Props/data.props';
 import { BehaviorSubject } from 'rxjs';
+import { recipes } from '../Data/recipe';
 
 @Injectable({
   providedIn: 'root'
@@ -62,7 +63,7 @@ export class SupabaseService {
   async allRecipeHealth():Promise<RecipeHealthProps[]>{
     const {data,error}=await this.supabase
     .from('RecipeHealth')
-    .select(`shelf_life,nutrition_benefit,potential_allergies`);
+    .select(`id,shelf_life,nutrition_benefit,potential_allergies`);
 
     if(error){
       console.error('Error fetching recipe health:', error.message);
@@ -96,6 +97,27 @@ export class SupabaseService {
     this._recipeCache=data ?? [];
     return this._recipeCache;
   }
+
+  async addRecipe(recipe: NewRecipeProp) {
+    const { data, error } = await this.supabase
+      .from('Recipe')
+      .insert({
+        image: recipe.image,
+        title: recipe.title,
+        category_id: recipe.category_id,
+        recipe_health_id: recipe.recipe_health_id,
+        preparation_time: recipe.preparation_time,
+        serving_method: recipe.serving_method,
+        instructions: recipe.instructions,
+      });
+  
+    if (error) {
+      console.error('Error adding recipe:', error.message);
+      return { success: false, error: error.message };
+    }
+    return { success: true, data };
+  }
+  
 
 
   async allReviews(): Promise<ReviewProps[]> {

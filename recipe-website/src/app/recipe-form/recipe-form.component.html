@@ -1,109 +1,183 @@
 <!-- Left Sidebar -->
-<form class="fixed top-0 left-0 h-screen w-64 mt-16 bg-gray-50 shadow-lg shadow-black p-4 overflow-x-auto" [formGroup]="newRecipe" (ngSubmit)="addRecipe()">
-    <div class="mb-4">
-      <h2 class="text-lg font-bold">Create a Recipe</h2>
+<form class="fixed top-0 left-0 h-screen w-72 mt-16 bg-gray-50 shadow-lg p-6 overflow-y-auto" [formGroup]="newRecipe" (ngSubmit)="addRecipe()">
+  <div class="mb-6">
+    <h2 class="text-xl font-bold text-[#800020]">Create a Recipe</h2>
+    <p class="text-sm text-gray-500">Add a new recipe with detailed instructions and health info.</p>
+  </div>
+
+  <!-- Recipe Title Input -->
+  <div class="mb-6">
+    <label for="recipe-title" class="block text-gray-700 font-semibold">Recipe Title</label>
+    <input id="recipe-title" type="text" formControlName="title" class="w-full p-3 border border-gray-300 rounded shadow-inner focus:outline-none focus:ring-2 focus:ring-[#800020]">
+  </div>
+
+  <!-- Image Upload -->
+  <div class="mb-6">
+    <label for="recipe-image" class="block text-gray-700 font-semibold">Upload Image</label>
+    <input id="recipe-image" type="file" class="w-full p-3 border border-gray-300 rounded shadow-inner" (change)="onFileSelected($event)">
+  </div>
+
+  <!-- Instructions with Add Button -->
+  <div class="mb-6">
+    <label class="block text-gray-700 font-semibold">Instructions</label>
+    <div formArrayName="instructions">
+      <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i">
+        <div class="flex items-center space-x-2 mt-2">
+          <input type="text" formControlName="instruction" placeholder="Step {{ i + 1 }}" class="w-4/5 p-3 border border-gray-300 rounded shadow-inner focus:outline-none focus:ring-2 focus:ring-[#800020]">
+          <button class="w-1/5 bg-red-500 text-white py-2 rounded" (click)="removeInstruction(i)">-</button>
+        </div>
+      </div>      
     </div>
-  
-    <!-- Recipe Title Input -->
-    <div class="mb-4">
-      <label for="recipe-title" class="block text-gray-700">Recipe Title</label>
-      <input id="recipe-title" type="text" formControlName="title" class="w-full p-2 border border-gray-300 rounded">
-    </div>
-  
-    <!-- Image Upload -->
-    <div class="mb-4">
-      <label for="recipe-image" class="block text-gray-700">Upload Image</label>
-      <input id="recipe-image" type="file" class="w-full p-2 border border-gray-300 rounded" (change)="onFileSelected($event)">
-    </div>
-  
-    <!-- Instructions with Add Button -->
-    <div class="mb-4">
-      <label class="block text-gray-700">Instructions</label>
-      <div formArrayName="instructions">
-        <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i">
-          <div class="flex items-center">
-            <input type="text" formControlName="0" class="w-3/4 p-2 mb-2 mt-2 border border-gray-300 rounded">
-            <button class="w-1/4 bg-red-500 text-white py-2 px-1 rounded mb-2 mt-2" (click)="removeInstruction(i)">-</button>
+    <button type="button" class="mt-2 w-full bg-[#800020] text-white py-2 rounded" (click)="addInstruction()">+ Add Instruction</button>
+  </div>
+
+  <!-- Serving Method -->
+  <div class="mb-6">
+    <label for="serving-method" class="block text-gray-700 font-semibold">Serving Method</label>
+    <input id="serving-method" type="text" formControlName="servingMethod" class="w-full p-3 border border-gray-300 rounded shadow-inner focus:outline-none focus:ring-2 focus:ring-[#800020]">
+  </div>
+
+  <!-- Preparation Time -->
+  <div class="mb-6">
+    <label for="preparation-time" class="block text-gray-700 font-semibold">Preparation Time (mins)</label>
+    <input id="preparation-time" type="number" formControlName="preparationTime" class="w-full p-3 border border-gray-300 rounded shadow-inner focus:outline-none focus:ring-2 focus:ring-[#800020]">
+  </div>
+
+  <!-- Add to Recipe Button -->
+  <button [disabled]="newRecipe.invalid" type="submit" class="w-full bg-green-600 text-white py-3 rounded font-semibold hover:bg-green-700 transition">
+    Preview
+  </button>
+</form>
+
+<!-- Center Panel -->
+<div class="flex-1 ml-80 mt-16 p-8 bg-white rounded-lg shadow-xl overflow-y-auto">
+  <!-- Empty State -->
+  <div class="flex items-center justify-center h-full" *ngIf="!recipeDetails">
+    <p class="text-2xl font-bold text-gray-400">No recipes added yet.</p>
+  </div>
+
+  <!-- Recipe Display -->
+  <div *ngIf="recipeDetails" class="text-gray-700">
+    <!-- Recipe Title -->
+     <div class="w-3/4 flex justify-between">
+      <div class="flex items-center mb-6">
+        <h2 class="text-4xl font-bold text-[#800020]">{{ recipeDetails.title }}</h2>
+        <span class="ml-4 py-1 px-3 text-sm bg-green-500 text-white rounded-full">New Recipe</span>
+      </div>
+      <div> 
+        <button (click)="saveRecipe()" title="Save" class="cursor-pointer flex items-center fill-lime-400 bg-lime-950 hover:bg-lime-900 active:border active:border-lime-400 rounded-md duration-100 p-2">
+          <svg viewBox="0 -0.5 25 25" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" d="M18.507 19.853V6.034C18.5116 5.49905 18.3034 4.98422 17.9283 4.60277C17.5532 4.22131 17.042 4.00449 16.507 4H8.50705C7.9721 4.00449 7.46085 4.22131 7.08577 4.60277C6.7107 4.98422 6.50252 5.49905 6.50705 6.034V19.853C6.45951 20.252 6.65541 20.6407 7.00441 20.8399C7.35342 21.039 7.78773 21.0099 8.10705 20.766L11.907 17.485C12.2496 17.1758 12.7705 17.1758 13.113 17.485L16.9071 20.767C17.2265 21.0111 17.6611 21.0402 18.0102 20.8407C18.3593 20.6413 18.5551 20.2522 18.507 19.853Z" clip-rule="evenodd" fill-rule="evenodd"></path>
+          </svg>
+          <span class="text-sm text-lime-400 font-bold pr-1">Save Recipe</span>
+        </button>
+      </div>
+     </div>
+    
+
+    <!-- Recipe Image and Details -->
+    <div class="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-8 mb-8">
+      <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-6 md:mb-0">
+        <img *ngIf="recipeDetails.image" [src]="recipeDetails.image" alt="Recipe Image" class="w-full h-auto rounded-lg shadow-lg">
+      </div>
+      <div class="w-full md:w-1/2 lg:w-2/3 xl:w-3/4">
+        <div class="flex flex-col space-y-4">
+          <div class="bg-gray-100 p-4 rounded-lg w-fit shadow-sm">
+            <p class="text-lg font-semibold">Preparation Time</p>
+            <p class="text-xl font-bold">{{ recipeDetails.preparationTime }} mins</p>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg w-fit shadow-sm">
+            <p class="text-lg font-semibold">Serving Method</p>
+            <p class="text-xl font-bold">{{ recipeDetails.servingMethod }}</p>
           </div>
         </div>
       </div>
-      <button type="button" class="bg-[#800020] text-white px-2 py-1 rounded" (click)="addInstruction()">+ Add Instruction</button>
     </div>
-  
-    <!-- Serving Method -->
-    <div class="mb-4">
-      <label for="serving-method" class="block text-gray-700">Serving Method</label>
-      <input id="serving-method" type="text" formControlName="servingMethod" class="w-full p-2 border border-gray-300 rounded">
-    </div>
-  
-    <!-- Preparation Time -->
-    <div class="mb-4">
-      <label for="preparation-time" class="block text-gray-700">Preparation Time (mins)</label>
-      <input id="preparation-time" type="number" formControlName="preparationTime" class="w-full p-2 border border-gray-300 rounded">
-    </div>
-  
-    <!-- Add to Recipe Button -->
-    <button [disabled]="newRecipe.invalid" [ngStyle]="{ cursor: newRecipe.valid ? 'pointer' : 'not-allowed' }"type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Add to Recipe</button>
-  </form>
-  
-  <!-- Center Panel -->
-  <div class="flex-1 ml-72 mr-72 mt-16 p-4 bg-gray-100 rounded-lg shadow-lg">
-    <div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" *ngIf="!recipeDetails">
-      <div class="text-center">
-        <p class="text-xl font-bold text-gray-500">No recipes yet</p>
+
+    <!-- Instructions Section -->
+    <div class="bg-gray-50 p-6 rounded-lg w-3/4 shadow-lg mb-10">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Instructions</h3>
+      <div class="space-y-4">
+        <div class="flex items-start space-x-2" *ngFor="let instruction of recipeDetails.instructions; let i = index">
+          <span class="font-bold text-[#800020]">{{ i + 1 }}.</span>
+          <p class="leading-relaxed">{{ instruction }}</p>
+        </div>
       </div>
     </div>
-  
-    <div *ngIf="recipeDetails">
-      <h2 class="text-2xl font-bold mb-4">{{ recipeDetails.title }}</h2>
-      <img *ngIf="recipeDetails.image" [src]="recipeDetails.image" alt="Recipe Image" class="w-1/2 h-auto mb-4 rounded-lg shadow-md">
-      <p><strong>Preparation Time:</strong> {{ recipeDetails.preparationTime }} mins</p>
-      <p><strong>Serving Method:</strong> {{ recipeDetails.servingMethod }}</p>
-  
-      <!-- Instructions -->
-      <h3 class="text-lg font-semibold mt-4">Instructions</h3>
-      <ol class="list-decimal pl-4 space-y-2">
-        <li *ngFor="let instruction of recipeDetails.instructions">{{ instruction }}</li>
-      </ol>
-  
-      <!-- Recipe Category and Health -->
-      <div class="mt-6 space-y-4">
-        <div>
-          <h3 class="text-lg font-semibold">Category</h3>
-          <p>{{ recipeDetails.category?.name }}</p>
+
+    <!-- Category and Recipe Health Info -->
+    <div class="mt-10">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Additional Information</h3>
+      <div class="flex flex-col space-y-4">
+        <!-- Category -->
+        <div class="bg-gray-100 p-4 w-3/4 rounded-lg shadow-sm">
+          <h4 class="text-lg font-semibold">Category</h4>
+          <div *ngIf="selectedCategory" class="mt-6">
+            <div class="flex items-center w-fit space-x-2 px-3 py-1 bg-[#800020] text-white rounded-full">
+              <p>{{ selectedCategory.name }}</p>
+              <button (click)="removeCategory()" class="text-lg font-bold hover:text-gray-300">&times;</button>
+            </div>
+          </div>
         </div>
-        <div>
-          <h3 class="text-lg font-semibold">Recipe Health</h3>
-          <p>{{ recipeDetails.recipeHealth?.name }}</p>
-        </div>
+
+        <!-- Recipe Health -->
+        <div class="bg-gray-50 p-6 w-3/4 rounded-lg shadow-lg">
+          <h4 class="text-lg font-semibold text-gray-800 mb-4">Recipe Health</h4>
+          <div *ngIf="selectedRecipeHealth" class="space-y-4">
+            <div class="flex justify-between items-center bg-green-100 text-green-900 rounded-lg p-3 shadow-sm">
+              <p class="font-semibold">Nutrition Benefit:</p>
+              <p>{{ selectedRecipeHealth.nutrition_benefit }}</p>
+            </div>
+            <div class="flex justify-between items-center bg-green-100 text-green-900 rounded-lg p-3 shadow-sm">
+              <p class="font-semibold">Shelf Life:</p>
+              <p>{{ selectedRecipeHealth.shelf_life }}</p>
+            </div>
+            <div class="flex justify-between items-center bg-green-100 text-green-900 rounded-lg p-3 shadow-sm">
+              <p class="font-semibold">Potential Allergies:</p>
+              <p>{{ selectedRecipeHealth.potential_allergies }}</p>
+            </div>
+            <div class="flex justify-center mt-4">
+              <button (click)="removeRecipeHealth()" class="text-green-900 bg-green-100 border border-green-300 px-4 py-2 rounded-full font-bold hover:bg-green-200">
+                &times; Remove Recipe Health
+              </button>
+            </div>
+          </div>
+        </div>         
       </div>
     </div>
   </div>
-  
+</div>
+
 <!-- Right Sidebar -->
-<div class="fixed top-0 right-0 h-screen w-64 mt-16 bg-gray-50 shadow-lg shadow-black p-4 overflow-x-auto">
-    <div class="mb-4">
-      <h2 class="text-lg font-bold">Available Categories</h2>
-    </div>
-  
-    <!-- Categories (draggable) -->
-    <div class="flex flex-col gap-4">
-      <div *ngFor="let category of categories" class="p-2 bg-white shadow-md rounded-lg z-1000" cdkDrag cdkDragPlaceholder>
-        <p>{{ category.name }}</p>
-      </div>
-    </div>
-  
-    <div class="mt-8 mb-4">
-      <h2 class="text-lg font-bold">Recipe Health</h2>
-    </div>
-  
-    <!-- Recipe Health (draggable) -->
-    <div class="flex flex-col gap-4">
-      <div *ngFor="let health of recipeHealths" class="bg-white shadow-md rounded-lg p-4" cdkDrag cdkDragPlaceholder>
-        <p><strong>Shelf Life:</strong> {{ health.shelf_life }}</p>
-        <p><strong>Nutrition Benefits:</strong> {{ health.nutrition_benefit }}</p>
-        <p><strong>Potential Allergens:</strong> {{ health.potential_allergies }}</p>
-      </div>
-    </div>
+<div class="fixed top-0 right-0 h-screen w-72 mt-16 bg-gray-50 shadow-lg p-6 overflow-y-auto">
+<div class="mb-6">
+  <h2 class="text-xl font-bold text-[#800020]">Select from the options</h2>
+    <p class="text-sm text-gray-500">Click on your desired category and recipe health</p>
+</div>
+
+<!-- Categories -->
+<div class="flex flex-col gap-4">
+  <div 
+  (click)="toggleCategory(category)" 
+  [ngClass]="{'bg-pink-950 text-white': selectedCategory === category, 'bg-gray-200 text-gray-800': selectedCategory !== category}"
+  *ngFor="let category of categories" class="p-3 bg-white shadow-md rounded-lg cursor-pointer hover:shadow-lg transition">
+    <p>{{ category.name }}</p>
   </div>
-  
+</div>
+
+<div class="mt-8 mb-4">
+  <h2 class="text-lg font-bold text-[#800020]">Recipe Health</h2>
+</div>
+
+<!-- Recipe Health -->
+<div class="flex flex-col gap-4">
+  <div 
+  (click)="toggleRecipeHealth(health)" 
+  [ngClass]="{'bg-pink-950 text-white': selectedRecipeHealth === health, 'bg-gray-200 text-gray-800': selectedRecipeHealth !== health}"
+  *ngFor="let health of recipeHealths" class="p-3 bg-white shadow-md rounded-lg cursor-pointer hover:shadow-lg transition">
+    <p><strong>Shelf Life:</strong> {{ health.shelf_life }}</p>
+    <p><strong>Nutrition Benefits:</strong> {{ health.nutrition_benefit }}</p>
+    <p><strong>Potential Allergens:</strong> {{ health.potential_allergies }}</p>
+  </div>
+</div>
+</div>
