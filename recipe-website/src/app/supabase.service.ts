@@ -117,8 +117,6 @@ export class SupabaseService {
     }
     return { success: true, data };
   }
-  
-
 
   async allReviews(): Promise<ReviewProps[]> {
     let { data, error } = await this.supabase
