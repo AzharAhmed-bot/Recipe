@@ -19,6 +19,7 @@ export interface NewRecipeProp{
     serving_method: string;
     category_id: number;
     recipe_health_id:number;
+    review_id:number
 }
 
 export interface CategoryProps{
@@ -27,7 +28,7 @@ export interface CategoryProps{
 }
 
 export interface ReviewProps{
-    id:number
+    id?:number
     review:string
     rating:number
 }

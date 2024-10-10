@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SupabaseService } from '../supabase.service';
-import { CategoryProps, NewRecipeProp, RecipeHealthProps } from 'src/Props/data.props';
+import { CategoryProps, NewRecipeProp, RecipeHealthProps, ReviewProps } from 'src/Props/data.props';
 import { Subscription } from 'rxjs';
 import { HotToastService } from '@ngneat/hot-toast';
 import { CloudinaryService } from '../cloudinary.service';
@@ -19,7 +19,12 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   newRecipe: FormGroup;
   selectedCategory: CategoryProps | null | undefined;
   selectedRecipeHealth:RecipeHealthProps| null | undefined;
+  reviewContent:string=""
+  reviewRating:number=0;
+  hoverRatingValue:number=0
+  handleSaveReview:boolean=false;
   loading:boolean=true;
+
 
   constructor(private supabase: SupabaseService, private toast:HotToastService,private cloudinary:CloudinaryService) {
     this.newRecipe = new FormGroup({
@@ -68,6 +73,23 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       instruction: new FormControl('', Validators.required)
     });
     (this.newRecipe.get('instructions') as FormArray).push(instructionGroup);
+  }
+  saveReview(){
+    this.handleSaveReview=true
+  }
+  editReview(){
+    this.handleSaveReview=false
+  }
+  setRating(value: number) {
+    this.reviewRating = value;
+  }
+
+  hoverRating(value: number) {
+    this.hoverRatingValue = value;
+  }
+
+  saveNewReview(newReview:ReviewProps){
+    this.supabase.addReview(newReview)
   }
   
 
@@ -138,32 +160,45 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   async saveRecipe() {
     this.loading = true;
     const loadingToast = this.toast.loading('Saving recipe...');
-
     try {
       const imageUrl = await this.cloudinary.upload(this.recipeDetails.image);
-      const recipeInfo: NewRecipeProp = {
-        title: this.recipeDetails.title,
-        preparation_time: this.recipeDetails.preparationTime,
-        serving_method: this.recipeDetails.servingMethod,
-        instructions: this.recipeDetails.instructions,
-        category_id: this.selectedCategory ? this.selectedCategory.id : 0,
-        recipe_health_id: this.selectedRecipeHealth?.id ?? 0,
-        image: imageUrl 
+      const reviewInfo: ReviewProps = {
+        rating: this.reviewRating,
+        review: this.reviewContent,
       };
-
-      await this.supabase.addRecipe(recipeInfo);
-      loadingToast.close();
-      this.toast.success('Recipe saved successfully!');
-      this.newRecipe.reset();
-      this.instructions.clear();
-
-    } catch (error:any) {
+  
+      const newReview = await this.supabase.addReview(reviewInfo);
+  
+      if (newReview.success && newReview.data) {
+        const reviewId = newReview.data.id; // Get the ID of the newly created review
+  
+        const recipeInfo: NewRecipeProp = {
+          title: this.recipeDetails.title,
+          preparation_time: this.recipeDetails.preparationTime,
+          serving_method: this.recipeDetails.servingMethod,
+          instructions: this.recipeDetails.instructions,
+          category_id: this.selectedCategory ? this.selectedCategory.id : 0,
+          recipe_health_id: this.selectedRecipeHealth?.id ?? 0,
+          image: imageUrl,
+          review_id: reviewId, 
+        };
+  
+        await this.supabase.addRecipe(recipeInfo);
+        loadingToast.close();
+        this.toast.success('Recipe saved successfully!');
+        this.newRecipe.reset();
+        this.instructions.clear();
+      } else {
+        this.toast.error('Failed to save review');
+      }
+    } catch (error: any) {
       loadingToast.close();
       this.toast.error('Failed to save recipe: ' + error.message);
     } finally {
       this.loading = false;
     }
   }
+  
   
   
 }

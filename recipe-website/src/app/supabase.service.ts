@@ -109,6 +109,7 @@ export class SupabaseService {
         preparation_time: recipe.preparation_time,
         serving_method: recipe.serving_method,
         instructions: recipe.instructions,
+        review_id:recipe.review_id
       });
   
     if (error) {
@@ -116,6 +117,29 @@ export class SupabaseService {
       return { success: false, error: error.message };
     }
     return { success: true, data };
+  }
+
+  async addReview(newReview:ReviewProps){
+    let {data,error}=await this.supabase
+    .from('Reviews')
+    .insert({
+      rating:newReview.rating,
+      review:newReview.review
+    })
+    .select('id')
+    .single()
+    if(error){
+      console.error('Error adding review:', error.message);
+    }
+    return {success:true,data}
+  }
+  async deleteReview(reviewId: number) {
+    const { error } = await this.supabase
+      .from('reviews')
+      .delete()
+      .eq('id', reviewId);
+  
+    if (error) throw error;
   }
 
   async allReviews(): Promise<ReviewProps[]> {
