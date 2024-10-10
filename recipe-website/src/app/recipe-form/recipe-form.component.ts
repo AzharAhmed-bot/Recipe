@@ -3,6 +3,7 @@ import { SupabaseService } from '../supabase.service';
 import { CategoryProps, NewRecipeProp, RecipeHealthProps } from 'src/Props/data.props';
 import { Subscription } from 'rxjs';
 import { HotToastService } from '@ngneat/hot-toast';
+import { CloudinaryService } from '../cloudinary.service';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 
 @Component({
@@ -20,7 +21,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   selectedRecipeHealth:RecipeHealthProps| null | undefined;
   loading:boolean=true;
 
-  constructor(private supabase: SupabaseService, private toast:HotToastService) {
+  constructor(private supabase: SupabaseService, private toast:HotToastService,private cloudinary:CloudinaryService) {
     this.newRecipe = new FormGroup({
       title: new FormControl('', [Validators.required]),
       image: new FormControl('', [Validators.required]),
@@ -132,39 +133,34 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
   }
 
-  saveRecipe() {
-    this.loading = true; 
-    const loadingToast = this.toast.loading('Saving recipe...'); // Start loading toast
-  
-    if (this.recipeDetails) {
+
+
+  async saveRecipe() {
+    this.loading = true;
+    const loadingToast = this.toast.loading('Saving recipe...');
+
+    try {
+      const imageUrl = await this.cloudinary.upload(this.recipeDetails.image);
       const recipeInfo: NewRecipeProp = {
         title: this.recipeDetails.title,
         preparation_time: this.recipeDetails.preparationTime,
         serving_method: this.recipeDetails.servingMethod,
         instructions: this.recipeDetails.instructions,
-        category_id: this.selectedCategory ? this.selectedCategory.id : 0, 
+        category_id: this.selectedCategory ? this.selectedCategory.id : 0,
         recipe_health_id: this.selectedRecipeHealth?.id ?? 0,
-        image: this.recipeDetails.image
+        image: imageUrl 
       };
-  
-      this.supabase.addRecipe(recipeInfo)
-        .then(() => {
-          loadingToast.close();
-          this.toast.success('Recipe saved successfully!'); 
-          this.newRecipe.reset(); 
-          (this.newRecipe.get('instructions') as FormArray).clear(); 
-        })
-        .catch((err) => {
-          loadingToast.close(); 
-          this.toast.error('Failed to save recipe: ' + err.message)
-        })
-        .finally(() => {
-          this.loading = false; 
-        });
-    } else {
-      loadingToast.close(); 
-      this.toast.error("No recipe details to save.");
-      console.log("No recipe details to save.");
+
+      await this.supabase.addRecipe(recipeInfo);
+      loadingToast.close();
+      this.toast.success('Recipe saved successfully!');
+      this.newRecipe.reset();
+      this.instructions.clear();
+
+    } catch (error:any) {
+      loadingToast.close();
+      this.toast.error('Failed to save recipe: ' + error.message);
+    } finally {
       this.loading = false;
     }
   }

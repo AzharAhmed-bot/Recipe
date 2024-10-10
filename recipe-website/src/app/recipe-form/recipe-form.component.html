@@ -78,7 +78,7 @@
     <!-- Recipe Image and Details -->
     <div class="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-8 mb-8">
       <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-6 md:mb-0">
-        <img *ngIf="recipeDetails.image" [src]="recipeDetails.image" alt="Recipe Image" class="w-full h-auto rounded-lg shadow-lg">
+        <img class="w-full" *ngIf="recipeDetails.image" [src]="recipeDetails.image" alt="Recipe Image" class="w-full h-auto rounded-lg shadow-lg">
       </div>
       <div class="w-full md:w-1/2 lg:w-2/3 xl:w-3/4">
         <div class="flex flex-col space-y-4">
@@ -159,7 +159,7 @@
 <div class="flex flex-col gap-4">
   <div 
   (click)="toggleCategory(category)" 
-  [ngClass]="{'bg-pink-950 text-white': selectedCategory === category, 'bg-gray-200 text-gray-800': selectedCategory !== category}"
+  [ngClass]="{'bg-pink-900 text-white': selectedCategory === category, 'bg-gray-200 text-gray-800': selectedCategory !== category}"
   *ngFor="let category of categories" class="p-3 bg-white shadow-md rounded-lg cursor-pointer hover:shadow-lg transition">
     <p>{{ category.name }}</p>
   </div>
@@ -173,7 +173,7 @@
 <div class="flex flex-col gap-4">
   <div 
   (click)="toggleRecipeHealth(health)" 
-  [ngClass]="{'bg-pink-950 text-white': selectedRecipeHealth === health, 'bg-gray-200 text-gray-800': selectedRecipeHealth !== health}"
+  [ngClass]="{'bg-pink-900 text-white': selectedRecipeHealth === health, 'bg-gray-200 text-gray-800': selectedRecipeHealth !== health}"
   *ngFor="let health of recipeHealths" class="p-3 bg-white shadow-md rounded-lg cursor-pointer hover:shadow-lg transition">
     <p><strong>Shelf Life:</strong> {{ health.shelf_life }}</p>
     <p><strong>Nutrition Benefits:</strong> {{ health.nutrition_benefit }}</p>
