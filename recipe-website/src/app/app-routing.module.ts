@@ -9,6 +9,7 @@ import { DetailedRecipesComponent } from './detailed-recipes/detailed-recipes.co
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { RecipeFormComponent } from './recipe-form/recipe-form.component';
+import { UpdateRecipeComponent } from './update-recipe/update-recipe.component';
 const routes: Routes = [
   {path:"",component:HerosPageComponent},
   {path:"about-us",component:AboutusComponent},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path:"profile", component:ProfileComponent,canActivate:[authGuard], },
   {path:"recipes", component:DetailedRecipesComponent,canActivate:[authGuard],},
   {path:"favorites",component:FavoritesComponent, canActivate:[authGuard]},
-  {path:"new-recipe",component:RecipeFormComponent,canActivate:[authGuard]}
+  {path:"new-recipe",component:RecipeFormComponent,canActivate:[authGuard]},
+  {path:"update-recipe",component:UpdateRecipeComponent,canActivate:[authGuard]},
 ];
 
 @NgModule({

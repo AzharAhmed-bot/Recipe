@@ -1,6 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SupabaseService } from '../supabase.service';
 import { AuthSession } from '@supabase/supabase-js';
+import { RecipeProps } from 'src/Props/data.props';
+import { Router } from '@angular/router';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'app-profile',
@@ -8,6 +11,8 @@ import { AuthSession } from '@supabase/supabase-js';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  recipByUserId:any[]=[]
+  userId:any |null = null
   session: AuthSession | null = null;
   token: any = null;
   expiresInInterval: any;
@@ -16,10 +21,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   email = '';
   image = '';
 
-  constructor(private supabase: SupabaseService) { }
+  constructor(private supabase: SupabaseService,private router:Router,private recipeService:RecipeService) { }
 
   ngOnInit(): void {
     this.fetchSession();
+    
   }
 
   ngOnDestroy(): void {
@@ -30,6 +36,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.session = await this.supabase.getSession();
     this.updateProfile();
   }
+  async fetchRecipeByUserId(userId: string){
+    this.recipByUserId= await this.supabase.allRecipesByUserId(userId);
+    console.log(this.recipByUserId);
+  }
 
   private updateProfile() {
     if (this.session) {
@@ -39,7 +49,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.user = this.token.user.user_metadata.fullname;
         this.email = this.token.user.email;
         this.image = this.token.user.user_metadata.picture;
-  
+        this.userId=this.token?.user?.id
+        this.fetchRecipeByUserId(this.userId);
         // Check and log session expiration details
         console.log('Session expires at (Unix Timestamp):', this.session.expires_at);
   
@@ -69,12 +80,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   getExpiresIn(): string {
     if (this.timeLeft === undefined || this.timeLeft <= 0) return 'Unknown';
-
     const hours = Math.floor(this.timeLeft / 3600);
     const minutes = Math.floor((this.timeLeft % 3600) / 60);
     const seconds = this.timeLeft % 60;
-
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+  updateRecipe(recipe:RecipeProps){
+    console.log("Going to update recipe")
+    this.router.navigate(['/update-recipe'])
+    this.recipeService.setRecipeData(recipe);
   }
 
   async logout() {

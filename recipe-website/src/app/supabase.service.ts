@@ -155,6 +155,25 @@ export class SupabaseService {
     return reviews;
   }
 
+  async allRecipesByUserId(id: string): Promise<RecipeProps[]> {
+    const { data, error } = await this.supabase
+      .from('Recipe')
+      .select(`
+        recipe_uid, id, image, title, instructions, preparation_time, serving_method,
+        Reviews(review),
+        Category(name),
+        RecipeHealth(nutrition_benefit, potential_allergies)
+      `)
+      .eq('user_id', id);
+  
+    if (error) {
+      console.error('Error fetching recipes:', error.message);
+      return []; 
+    }
+  
+    return data ?? []; 
+  }
+  
   subscribeToReviews() {
     const Reviews = this.supabase.channel('custom-all-channel').on('postgres_changes', { event: "*", schema: 'public', table: 'Reviews' }, (payload) => {
       console.log("Changes received", payload);

@@ -20,6 +20,7 @@ import { DetailedRecipesComponent } from './detailed-recipes/detailed-recipes.co
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { RecipeFormComponent } from './recipe-form/recipe-form.component';
+import { UpdateRecipeComponent } from './update-recipe/update-recipe.component';
 
 
 
@@ -41,6 +42,7 @@ import { RecipeFormComponent } from './recipe-form/recipe-form.component';
     AboutusComponent,
     FavoritesComponent,
     RecipeFormComponent,
+    UpdateRecipeComponent,
   ],
   imports: [
     BrowserModule,
