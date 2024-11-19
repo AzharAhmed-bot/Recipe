@@ -1,76 +1,159 @@
 <div class="flex flex-row">
-    <!-- Left Sidebar -->
-    <div class="fixed top-0 left-0 h-screen w-72 mt-16 bg-gray-50 shadow-lg p-6 overflow-y-auto">
-      <div class="mb-6">
-        <h2 class="text-xl font-bold text-[#800020]">Select from the options</h2>
-        <p class="text-sm text-gray-500">Click on your desired category and recipe health</p>
-      </div>
-      
-      <!-- Categories -->
-      <div class="flex flex-col gap-4">
-        <div 
-          (click)="toggleCategory(category)" 
-          [ngClass]="{'bg-pink-900 text-white': selectedCategory === category, 'bg-gray-200 text-gray-800': selectedCategory !== category}"
-          *ngFor="let category of categories" class="p-3 bg-white shadow-md rounded-lg cursor-pointer hover:shadow-lg transition">
-          <p>{{ category.name }}</p>
-        </div>
-      </div>
-      
-      <div class="mt-8 mb-4">
-        <h2 class="text-lg font-bold text-[#800020]">Recipe Health</h2>
-      </div>
-      
-      <!-- Recipe Health -->
-      <div class="flex flex-col gap-4">
-        <div 
-          (click)="toggleRecipeHealth(health)" 
-          [ngClass]="{'bg-pink-900 text-white': selectedRecipeHealth === health, 'bg-gray-200 text-gray-800': selectedRecipeHealth !== health}"
-          *ngFor="let health of recipeHealths" class="p-3 bg-white shadow-md rounded-lg cursor-pointer hover:shadow-lg transition">
-          <p><strong>Shelf Life:</strong> {{ health.shelf_life }}</p>
-          <p><strong>Nutrition Benefits:</strong> {{ health.nutrition_benefit }}</p>
-          <p><strong>Potential Allergens:</strong> {{ health.potential_allergies }}</p>
-        </div>
+  <!-- Left Sidebar -->
+  <div class="fixed top-0 left-0 h-screen w-72 mt-16 bg-gray-50 shadow-lg p-6 overflow-y-auto">
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-[#800020]">Select from the options</h2>
+      <p class="text-sm text-gray-500">Click on your desired category and recipe health</p>
+    </div>
+
+    <!-- Categories -->
+    <div class="flex flex-col gap-4">
+      <div
+        *ngFor="let category of categories" 
+        (click)="toggleCategory(category)"
+        [class.bg-pink-800]="selectedCategory === category"
+        [class.text-white]="selectedCategory === category"
+        [class.bg-gray-200]="selectedCategory !== category"
+        [class.text-gray-800]="selectedCategory !== category"
+        class="p-3 shadow-md rounded-lg cursor-pointer hover:shadow-lg transition">
+        <p>{{ category.name }}</p>
       </div>
     </div>
-  
-   <!-- Right Side (Recipe Preview) -->
-<div class="flex-grow ml-72 p-8 mt-16 bg-white rounded-lg shadow-xl overflow-y-auto">
-    <h2 class="text-2xl font-bold text-[#800020]">Recipe Preview</h2>
-    
-    <div *ngIf="recipeToUpdate" class="mt-4 p-4 bg-white shadow-md rounded-lg">
-      <div class="w-3/4 flex justify-between">
-        <div class="flex items-center mb-6">
-          <h3 class="text-4xl font-bold text-[#800020]">{{ recipeToUpdate.title }}</h3>
-          <span class="ml-4 py-1 px-3 text-sm bg-green-500 text-white rounded-full">Updated Recipe</span>
-        </div>
-      </div>
-  
-      <p><strong>Category:</strong> {{ selectedCategory?.name }}</p>
-      
-      <div *ngFor="let health of recipeToUpdate.RecipeHealth" class="bg-gray-100 p-4 rounded-lg w-fit shadow-sm mb-4">
-        <p><strong>Health Info:</strong> {{ health.nutrition_benefit }}</p>
+
+    <div class="mt-8 mb-4">
+      <h2 class="text-lg font-bold text-[#800020]">Recipe Health</h2>
+    </div>
+
+    <!-- Recipe Health -->
+    <div class="flex flex-col gap-4">
+      <div
+        *ngFor="let health of recipeHealths" 
+        (click)="toggleRecipeHealth(health)"
+        [class.bg-pink-800]="selectedRecipeHealth === health"
+        [class.text-white]="selectedRecipeHealth === health"
+        [class.bg-gray-200]="selectedRecipeHealth !== health"
+        [class.text-gray-800]="selectedRecipeHealth !== health"
+        class="p-3 shadow-md rounded-lg cursor-pointer hover:shadow-lg transition">
+        <p><strong>Shelf Life:</strong> {{ health.shelf_life }}</p>
+        <p><strong>Nutrition Benefits:</strong> {{ health.nutrition_benefit }}</p>
         <p><strong>Potential Allergens:</strong> {{ health.potential_allergies }}</p>
       </div>
-      
-      <p><strong>Instructions:</strong></p>
-      <ul class="list-disc list-inside">
-        <li *ngFor="let instruction of recipeToUpdate.instructions">{{ instruction }}</li>
-      </ul>
-      
-      <div class="mt-4">
-        <p><strong>Preparation Time:</strong> {{ recipeToUpdate.preparation_time }} mins</p>
-        <p><strong>Serving Method:</strong> {{ recipeToUpdate.serving_method }}</p>
-      </div>
-  
-      <div class="w-full mt-2">
-        <img *ngIf="recipeToUpdate.image" [src]="recipeToUpdate.image" alt="Recipe Image" class="w-full h-auto rounded-lg shadow-lg">
-      </div>
     </div>
-  
-    <!-- Placeholder for no recipe update -->
-    <div *ngIf="!recipeToUpdate" class="flex items-center justify-center h-full mt-16">
-      <p class="text-2xl font-bold text-gray-400">No recipe selected for preview.</p>
-    </div>
-  </div>  
   </div>
-  
+
+  <!-- Right Side (Recipe Preview) -->
+  <div class="flex-grow ml-72 p-8 mt-16 bg-white rounded-lg shadow-xl overflow-y-auto">
+    <div *ngIf="recipeToUpdate" class="mt-4 p-4 bg-white shadow-md rounded-lg">
+      <div class="flex items-center justify-between mb-6">
+        <!-- Recipe Title -->
+        <div *ngIf="!isEditingTitle" class="w-3/4 flex justify-between">
+          <div class="flex items-center mb-6">
+            <h2 class="text-4xl font-bold text-[#800020]">{{ recipeTitleForm.get('title')?.value }}</h2>
+            <button (click)="editTitle()" class="ml-4 py-1 px-3 text-sm bg-blue-500 text-white rounded-full">Edit</button>
+          </div>
+        </div>
+        <!-- Edit Title Form -->
+        <div *ngIf="isEditingTitle">
+          <input [(ngModel)]="recipeToUpdate.title" class="w-full p-3 border border-gray-300 rounded shadow-inner focus:outline-none focus:ring-2 focus:ring-[#800020]">
+          <button (click)="saveTitle()" class="bg-green-500 text-white px-4 py-2 rounded-lg mt-4">Save</button>
+        </div>
+
+        <!-- Save Changes Button -->
+        <button 
+          (click)="logSavedChanges()" 
+          class="py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+          Save Changes
+        </button>
+      </div>
+
+      <!-- Image Update -->
+      <div class="mb-6">
+        <img 
+          *ngIf="recipeToUpdate.image" 
+          [src]="recipeToUpdate.image" 
+          alt="Recipe Image" 
+          class="w-full h-64 object-cover rounded-lg shadow-lg mb-2">
+        <input 
+          type="file" 
+          (change)="onImageChange($event)" 
+          accept="image/*"
+          class="w-full p-2 border rounded-lg">
+      </div>
+
+      <!-- Category and Recipe Health Display -->
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <p class="font-bold">Selected Category:</p>
+          <p>{{ selectedCategory?.name || recipeToUpdate?.Category.name }}</p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <p class="font-bold">Selected Recipe Health:</p>
+          <p><strong>Shelf Life:</strong> {{ selectedRecipeHealth?.shelf_life || recipeToUpdate?.RecipeHealth.shelf_life  }}</p>
+          <p><strong>Nutrition:</strong> {{ selectedRecipeHealth?.nutrition_benefit || recipeToUpdate?.RecipeHealth.nutrition_benefit }}</p>
+          <p><strong>Allergens:</strong> {{selectedRecipeHealth?.potential_allergies ||  recipeToUpdate?.RecipeHealth.potential_allergies   }}</p>
+        </div>
+      </div>
+
+      <!-- Instructions -->
+      <div class="mb-6">
+        <div class="flex items-center justify-between mb-2">
+          <h4 class="text-lg font-bold">Instructions</h4>
+          <button 
+            (click)="addInstruction()" 
+            class="py-1 px-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+            Add Step
+          </button>
+        </div>
+        
+        <form [formGroup]="instructionsForm">
+          <div formArrayName="instructions">
+            <div *ngFor="let instruction of instructions.controls; let i = index" class="mb-2 flex gap-2">
+              <input 
+                [formControlName]="i"
+                
+                class="flex-grow p-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent">
+              <button 
+                (click)="removeInstruction(i)" 
+                class="py-2 px-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                ✕
+              </button>
+            </div>
+          </div>
+          <button 
+            (click)="saveInstructions()" 
+            class="mt-2 py-1 px-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+            Save Instructions
+          </button>
+        </form>
+      </div>
+
+      <!-- Reviews -->
+      <div class="mb-4">
+        <h4 class="text-lg font-bold mb-2">Review</h4>
+        <p *ngIf="!isEditingReview">{{ reviewForm.get('review')?.value || recipeToUpdate?.Reviews.review }}</p>
+        <form [formGroup]="reviewForm" class="space-y-2">
+          <textarea 
+          *ngIf="isEditingReview"
+          [(ngModel)]="recipeToUpdate.Reviews.review"
+            formControlName="review"
+            class="w-full p-2 border rounded-lg h-32 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+            placeholder="Enter review here..."></textarea>
+            <button 
+            (click)="editReview()" 
+            class="py-1 px-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+            Edit Review
+          </button>
+          <button 
+            (click)="saveReview()" 
+            class="py-1 px-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition float-right">
+            Save Review
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- No Recipe Selected State -->
+    <div *ngIf="!recipeToUpdate" class="mt-4 p-8 text-center text-gray-500">
+      <p>No recipe selected for updating</p>
+    </div>
+  </div>
+</div>

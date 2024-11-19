@@ -17,7 +17,6 @@ export class SupabaseService {
   public reviewChanges$ = this.reviewSubject.asObservable();
   public categoryChanges$=this.categorySubject.asObservable();
   public recipeHealthChanges$=this.recipeHealthSubject.asObservable();
-  public _recipeCache:RecipeProps[] |null=null;
 
 
   constructor() {
@@ -86,16 +85,13 @@ export class SupabaseService {
 
 
   async allRecipes() {
-    if(this._recipeCache){
-      return this._recipeCache
-    }
     const { data, error } = await this.supabase.schema('public').from("Recipe").select(`recipe_uid,id,image,title,instructions,preparation_time,serving_method,Reviews(review),Category(name),RecipeHealth(nutrition_benefit,potential_allergies)`);
     if (error) {
       console.error('Error fetching recipes:', error.message);
       return [];
     }
-    this._recipeCache=data ?? [];
-    return this._recipeCache;
+    const recipes=data ?? [];
+    return recipes;
   }
 
   async addRecipe(recipe: NewRecipeProp) {
@@ -117,6 +113,23 @@ export class SupabaseService {
       return { success: false, error: error.message };
     }
     return { success: true, data };
+  }
+
+  async updateRecipe(recipe_id:number,updatingData:any):Promise<any>{
+    const {data,error}=await this.supabase
+    .from('Recipe')
+    .update({
+      image:updatingData.image,
+      title:updatingData.title,
+      category_id:updatingData.category_id,
+      recipe_health_id:updatingData.recipe_health_id,
+      instructions:updatingData.instructions,
+    })
+    .eq('id',recipe_id)
+    if(error){
+      console.error('Error updating recipe:', error.message);
+    }
+    return {success:true,data}
   }
 
   async addReview(newReview:ReviewProps){
@@ -161,8 +174,8 @@ export class SupabaseService {
       .select(`
         recipe_uid, id, image, title, instructions, preparation_time, serving_method,
         Reviews(review),
-        Category(name),
-        RecipeHealth(nutrition_benefit, potential_allergies)
+        Category(id,name),
+        RecipeHealth(shelf_life, nutrition_benefit, potential_allergies)
       `)
       .eq('user_id', id);
   

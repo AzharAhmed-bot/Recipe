@@ -8,7 +8,7 @@ export interface RecipeProps {
     serving_method: string;
     Reviews: {review:string}[];
     Category: {name:string}[];
-    RecipeHealth: { nutrition_benefit: string; potential_allergies: string; }[];
+    RecipeHealth: {nutrition_benefit: string; potential_allergies: string; }[];
 }
 
 export interface NewRecipeProp{

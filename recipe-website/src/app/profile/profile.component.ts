@@ -38,7 +38,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
   async fetchRecipeByUserId(userId: string){
     this.recipByUserId= await this.supabase.allRecipesByUserId(userId);
-    console.log(this.recipByUserId);
   }
 
   private updateProfile() {
